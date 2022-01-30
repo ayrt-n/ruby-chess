@@ -3,7 +3,14 @@
 # Class representation of chess board
 # Keeps track of and updates the position of chess pieces throughout the game
 class ChessBoard
-  def initialize(board)
+  attr_accessor :board
+
+  def initialize(board = new_board)
     @board = board
+  end
+
+  def move(starting, ending)
+    board[ending] = board[starting]
+    board[starting] = nil
   end
 end
