@@ -13,4 +13,8 @@ class ChessBoard
     board[ending] = board[starting]
     board[starting] = nil
   end
+
+  def in_bounds?(position)
+    position >= 0 && position < board.size
+  end
 end

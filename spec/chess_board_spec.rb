@@ -10,4 +10,16 @@ describe ChessBoard do
       expect(example_board.board).to eql([nil, nil, nil, 1, nil])
     end
   end
+
+  describe '#in_bounds?' do
+    it 'returns true when position is in bounds of board' do
+      example_board = ChessBoard.new([1, nil, nil, nil, nil])
+      expect(example_board).to be_in_bounds(3)
+    end
+
+    it 'returns false when position is out of bounds of board' do
+      example_board = ChessBoard.new([1, nil, nil, nil, nil])
+      expect(example_board).not_to be_in_bounds(5)
+    end
+  end
 end
