@@ -16,6 +16,10 @@ class ChessPiece
   end
 
   def post_init; end
+
+  def enemy_color
+    color == 'W' ? 'B' : 'W'
+  end
 end
 
 # Class containing pawn play logic
@@ -59,10 +63,6 @@ class Pawn < ChessPiece
   def pawn_takes?(board, position)
     !board.empty?(position) && board.color(position) == enemy_color
   end
-
-  def enemy_color
-    color == 'W' ? 'B' : 'W'
-  end
 end
 
 # Class containing knight play logic
@@ -88,9 +88,5 @@ class Knight < ChessPiece
      curr_position - 10,
      curr_position - 15,
      curr_position - 17]
-  end
-
-  def enemy_color
-    color == 'W' ? 'B' : 'W'
   end
 end
