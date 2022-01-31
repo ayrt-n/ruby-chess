@@ -23,6 +23,8 @@ class ChessBoard
   end
 
   def color(position)
+    return if board.empty?(position)
+
     board[position].color
   end
 end
