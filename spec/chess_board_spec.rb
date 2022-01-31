@@ -22,4 +22,16 @@ describe ChessBoard do
       expect(example_board).not_to be_in_bounds(5)
     end
   end
+
+  describe '#empty?' do
+    it 'returns true if spot is empty (nil)' do
+      example_board = ChessBoard.new([1, nil, nil, nil, nil])
+      expect(example_board).to be_empty(1)
+    end
+
+    it 'returns false if spot is not empty (nil)' do
+      example_board = ChessBoard.new([1, nil, nil, nil, nil])
+      expect(example_board).to be_empty(1)
+    end
+  end
 end
