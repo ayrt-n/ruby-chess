@@ -17,7 +17,7 @@ describe Pawn do
     end
 
     context 'when path is fully blocked' do
-      it 'returns array of valid moves' do
+      it 'returns empty array' do
         board = double('board')
         allow(board).to receive(:empty?).and_return(false)
         pawn = Pawn.new(color: 'W', curr_position: 19)
@@ -86,8 +86,8 @@ describe Knight do
       end
     end
 
-    context 'when knight is blocked by team' do
-      it 'returns array of valid moves' do
+    context 'when knight is fully blocked by team' do
+      it 'returns empty array' do
         board = double('board')
         allow(board).to receive(:color).and_return('W')
         allow(board).to receive(:empty?).and_return(false)
@@ -96,6 +96,20 @@ describe Knight do
         valid_moves = knight.valid_moves(board)
 
         expect(valid_moves).to be_empty
+      end
+    end
+
+    context 'when one spot is blocked by team' do
+      it 'returns array of size one less than full potential moveset' do
+        board = double('board')
+        allow(board).to receive(:color).and_return('W', 'B', nil)
+        allow(board).to receive(:empty?).and_return(false, true)
+        knight = Knight.new(color: 'W', curr_position: 36)
+
+        valid_moves = knight.valid_moves(board)
+        num_of_moves = valid_moves.size
+
+        expect(num_of_moves).to eql(7)
       end
     end
   end
