@@ -34,8 +34,8 @@ class Pawn < ChessPiece
   def valid_moves(board)
     valid_moves = []
 
-    valid_moves << one_forward if board.empty?(one_forward)
-    valid_moves << two_forward if board.empty?(one_forward) && board.empty?(two_forward) && !moved
+    valid_moves << one_forward if one_forward_valid?(board)
+    valid_moves << two_forward if two_forward_valid?(board)
     valid_moves << one_left_diagonal if pawn_takes?(board, one_left_diagonal)
     valid_moves << one_right_diagonal if pawn_takes?(board, one_right_diagonal)
 
@@ -69,7 +69,7 @@ class Pawn < ChessPiece
   end
 
   def two_forward_valid?(board)
-    board.empty?(one_forward) && board.empty(two_forward) && board.in_bounds?(two_forward) && !moved
+    board.empty?(one_forward) && board.empty?(two_forward) && board.in_bounds?(two_forward) && !moved
   end
 end
 
