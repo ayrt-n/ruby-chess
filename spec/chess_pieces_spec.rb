@@ -100,7 +100,7 @@ describe Knight do
     end
 
     context 'when one spot is blocked by team' do
-      it 'returns array of size one less than full potential moveset' do
+      it 'returns array of size one less than full potential moveset (8)' do
         board = double('board')
         allow(board).to receive(:color).and_return('W', 'B', nil)
         allow(board).to receive(:empty?).and_return(false, true)
@@ -110,6 +110,21 @@ describe Knight do
         num_of_moves = valid_moves.size
 
         expect(num_of_moves).to eql(7)
+      end
+    end
+
+    context 'when two moves are out of bounds of board' do
+      it 'returns array of size two less than full potential moveset (8)' do
+        board = double('board')
+        allow(board).to receive(:color)
+        allow(board).to receive(:empty?).and_return(true)
+        allow(board).to receive(:in_bounds?).and_return(false, false, true)
+        knight = Knight.new(color: 'W', curr_position: 12)
+
+        valid_moves = knight.valid_moves(board)
+        num_of_moves = valid_moves.size
+
+        expect(num_of_moves).to eql(6)
       end
     end
   end
