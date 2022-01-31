@@ -17,3 +17,50 @@ class ChessPiece
 
   def post_init; end
 end
+
+# Class containing pawn play logic
+class Pawn < ChessPiece
+  attr_reader :direction, :moved
+
+  def post_init
+    @direction = (color == 'W' ? -1 : 1)
+    @moved = false
+  end
+
+  def valid_moves(board)
+    valid_moves = []
+
+    valid_moves << one_forward if board.empty?(one_forward)
+    valid_moves << two_forward if board.empty?(one_forward) && board.empty?(two_forward) && !moved
+    valid_moves << one_left_diagonal if pawn_takes?(board, one_left_diagonal)
+    valid_moves << one_right_diagonal if pawn_takes?(board, one_right_diagonal)
+
+    valid_moves
+  end
+
+  private
+
+  def one_forward
+    curr_position + (8 * direction)
+  end
+
+  def two_forward
+    one_forward + (8 * direction)
+  end
+
+  def one_left_diagonal
+    curr_position + (9 * direction)
+  end
+
+  def one_right_diagonal
+    curr_position + (7 * direction)
+  end
+
+  def pawn_takes?(board, position)
+    !board.empty?(position) && board.color(position) == enemy_color
+  end
+
+  def enemy_color
+    color == 'W' ? 'B' : 'W'
+  end
+end
