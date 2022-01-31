@@ -61,7 +61,15 @@ class Pawn < ChessPiece
   end
 
   def pawn_takes?(board, position)
-    !board.empty?(position) && board.color(position) == enemy_color
+    board.color(position) == enemy_color && board.in_bounds?(position)
+  end
+
+  def one_forward_valid?(board)
+    board.empty?(one_forward) && board.in_bounds?(one_forward)
+  end
+
+  def two_forward_valid?(board)
+    board.empty?(one_forward) && board.empty(two_forward) && board.in_bounds?(two_forward) && !moved
   end
 end
 
