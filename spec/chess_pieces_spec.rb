@@ -78,6 +78,7 @@ describe Knight do
         board = double('board')
         allow(board).to receive(:color)
         allow(board).to receive(:empty?).and_return(true)
+        allow(board).to receive(:in_bounds?).and_return(true)
         knight = Knight.new(color: 'W', curr_position: 36)
 
         valid_moves = knight.valid_moves(board)
@@ -91,6 +92,7 @@ describe Knight do
         board = double('board')
         allow(board).to receive(:color).and_return('W')
         allow(board).to receive(:empty?).and_return(false)
+        allow(board).to receive(:in_bounds?).and_return(true)
         knight = Knight.new(color: 'W', curr_position: 36)
 
         valid_moves = knight.valid_moves(board)
@@ -104,6 +106,7 @@ describe Knight do
         board = double('board')
         allow(board).to receive(:color).and_return('W', 'B', nil)
         allow(board).to receive(:empty?).and_return(false, true)
+        allow(board).to receive(:in_bounds?).and_return(true)
         knight = Knight.new(color: 'W', curr_position: 36)
 
         valid_moves = knight.valid_moves(board)
