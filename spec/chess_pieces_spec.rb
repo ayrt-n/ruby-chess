@@ -10,6 +10,7 @@ describe Pawn do
         allow(board).to receive(:empty?).and_return(true)
         allow(board).to receive(:in_bounds?).and_return(true)
         allow(board).to receive(:color)
+        allow(board).to receive(:empty?).and_return(true)
         pawn = Pawn.new(color: 'W', curr_position: 19)
 
         valid_moves = pawn.valid_moves(board)
