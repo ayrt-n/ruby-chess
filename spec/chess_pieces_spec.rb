@@ -8,6 +8,8 @@ describe Pawn do
       it 'returns array of valid moves' do
         board = double('board')
         allow(board).to receive(:empty?).and_return(true)
+        allow(board).to receive(:in_bounds?).and_return(true)
+        allow(board).to receive(:color)
         pawn = Pawn.new(color: 'W', curr_position: 19)
 
         valid_moves = pawn.valid_moves(board)
@@ -20,8 +22,9 @@ describe Pawn do
       it 'returns empty array' do
         board = double('board')
         allow(board).to receive(:empty?).and_return(false)
-        pawn = Pawn.new(color: 'W', curr_position: 19)
+        allow(board).to receive(:in_bounds?).and_return(true)
         allow(board).to receive(:color).and_return('W')
+        pawn = Pawn.new(color: 'W', curr_position: 19)
 
         valid_moves = pawn.valid_moves(board)
 
@@ -33,8 +36,9 @@ describe Pawn do
       it 'returns array of valid moves' do
         board = double('board')
         allow(board).to receive(:empty?).and_return(true, false)
-        pawn = Pawn.new(color: 'W', curr_position: 19)
+        allow(board).to receive(:in_bounds?).and_return(true)
         allow(board).to receive(:color).and_return('W')
+        pawn = Pawn.new(color: 'W', curr_position: 19)
 
         valid_moves = pawn.valid_moves(board)
 
@@ -46,6 +50,8 @@ describe Pawn do
       it 'returns array of valid moves' do
         board = double('board')
         allow(board).to receive(:empty?).and_return(true)
+        allow(board).to receive(:in_bounds?).and_return(true)
+        allow(board).to receive(:color)
         pawn = Pawn.new(color: 'W', curr_position: 19)
         allow(pawn).to receive(:moved).and_return(true)
 
@@ -61,6 +67,7 @@ describe Pawn do
         board = double('board')
         allow(board).to receive(:empty?).and_return(false)
         allow(board).to receive(:color).and_return('B')
+        allow(board).to receive(:in_bounds?).and_return(true)
         pawn = Pawn.new(color: 'W', curr_position: 19)
 
         valid_moves = pawn.valid_moves(board)
