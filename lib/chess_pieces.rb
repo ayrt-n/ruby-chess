@@ -67,11 +67,11 @@ end
 
 # Class containing knight play logic
 class Knight < ChessPiece
-  def valid_moves
+  def valid_moves(board)
     valid_moves = []
 
     knight_moves.each do |move|
-      valid_moves << move
+      valid_moves << move if board.color(move) == enemy_color || board.empty?(move)
     end
 
     valid_moves
@@ -88,5 +88,9 @@ class Knight < ChessPiece
      curr_position - 10,
      curr_position - 15,
      curr_position - 17]
+  end
+
+  def enemy_color
+    color == 'W' ? 'B' : 'W'
   end
 end

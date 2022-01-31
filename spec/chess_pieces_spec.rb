@@ -75,9 +75,27 @@ describe Knight do
   describe '#valid_moves' do
     context 'when knight is not blocked by team' do
       it 'returns array of valid moves' do
+        board = double('board')
+        allow(board).to receive(:color)
+        allow(board).to receive(:empty?).and_return(true)
         knight = Knight.new(color: 'W', curr_position: 36)
-        valid_moves = knight.valid_moves
+
+        valid_moves = knight.valid_moves(board)
+
         expect(valid_moves).to contain_exactly(19, 21, 26, 30, 42, 46, 51, 53) 
+      end
+    end
+
+    context 'when knight is blocked by team' do
+      it 'returns array of valid moves' do
+        board = double('board')
+        allow(board).to receive(:color).and_return('W')
+        allow(board).to receive(:empty?).and_return(false)
+        knight = Knight.new(color: 'W', curr_position: 36)
+
+        valid_moves = knight.valid_moves(board)
+
+        expect(valid_moves).to be_empty
       end
     end
   end
