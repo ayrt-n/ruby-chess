@@ -71,7 +71,7 @@ class Knight < ChessPiece
     valid_moves = []
 
     knight_moves.each do |move|
-      valid_moves << move if board.color(move) == enemy_color || board.empty?(move)
+      valid_moves << move if move_valid?(board, move)
     end
 
     valid_moves
@@ -88,5 +88,9 @@ class Knight < ChessPiece
      curr_position - 10,
      curr_position - 15,
      curr_position - 17]
+  end
+
+  def move_valid?(board, move)
+    board.in_bounds?(move) && (board.color(move) == enemy_color || board.empty?(move))
   end
 end
