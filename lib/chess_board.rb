@@ -21,4 +21,8 @@ class ChessBoard
   def empty?(position)
     board[position].nil?
   end
+
+  def color(position)
+    board[position].color
+  end
 end
