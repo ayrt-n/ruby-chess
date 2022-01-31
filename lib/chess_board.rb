@@ -17,4 +17,8 @@ class ChessBoard
   def in_bounds?(position)
     position >= 0 && position < board.size
   end
+
+  def empty?(position)
+    board[position].nil?
+  end
 end
