@@ -70,3 +70,15 @@ describe Pawn do
     end
   end
 end
+
+describe Knight do
+  describe '#valid_moves' do
+    context 'when knight is not blocked by team' do
+      it 'returns array of valid moves' do
+        knight = Knight.new(color: 'W', curr_position: 36)
+        valid_moves = knight.valid_moves
+        expect(valid_moves).to contain_exactly(19, 21, 26, 30, 42, 46, 51, 53) 
+      end
+    end
+  end
+end

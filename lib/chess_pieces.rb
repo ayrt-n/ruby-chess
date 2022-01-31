@@ -64,3 +64,23 @@ class Pawn < ChessPiece
     color == 'W' ? 'B' : 'W'
   end
 end
+
+# Class containing knight play logic
+class Knight < ChessPiece
+  def valid_moves
+    valid_moves = []
+
+    knight_movement.each do |move|
+      valid_moves << curr_position + move
+      valid_moves << curr_position - move
+    end
+
+    valid_moves
+  end
+
+  private
+
+  def knight_movement
+    [6, 10, 15, 17]
+  end
+end
