@@ -70,9 +70,8 @@ class Knight < ChessPiece
   def valid_moves
     valid_moves = []
 
-    knight_movement.each do |move|
-      valid_moves << curr_position + move
-      valid_moves << curr_position - move
+    knight_moves.each do |move|
+      valid_moves << move
     end
 
     valid_moves
@@ -80,7 +79,14 @@ class Knight < ChessPiece
 
   private
 
-  def knight_movement
-    [6, 10, 15, 17]
+  def knight_moves
+    [curr_position + 6,
+     curr_position + 10,
+     curr_position + 15,
+     curr_position + 17,
+     curr_position - 6,
+     curr_position - 10,
+     curr_position - 15,
+     curr_position - 17]
   end
 end
