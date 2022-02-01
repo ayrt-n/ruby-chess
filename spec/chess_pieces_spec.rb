@@ -278,3 +278,63 @@ describe Queen do
     end
   end
 end
+
+describe King do
+  describe '#valid_moves' do
+    context 'when king is not blocked by other pieces' do
+      it 'returns an array of valid moves' do
+        board = double('board')
+        allow(board).to receive(:in_bounds?).and_return(true)
+        allow(board).to receive(:color)
+        allow(board).to receive(:empty?).and_return(true)
+        king = King.new(color: 'W', curr_position: 36)
+
+        valid_moves = king.valid_moves(board)
+
+        expect(valid_moves).to contain_exactly(27, 28, 29, 35, 37, 43, 44, 45)
+      end
+    end
+
+    context 'when king is blocked by boundaries of board' do
+      it 'returns an empty array' do
+        board = double('board')
+        allow(board).to receive(:in_bounds?).and_return(false)
+        allow(board).to receive(:color)
+        allow(board).to receive(:empty?)
+        king = King.new(color: 'W', curr_position: 36)
+
+        valid_moves = king.valid_moves(board)
+
+        expect(valid_moves).to be_empty
+      end
+
+      context 'when king is blocked by team' do
+        it 'returns an empty array' do
+          board = double('board')
+          allow(board).to receive(:in_bounds?).and_return(true)
+          allow(board).to receive(:color).and_return('W')
+          allow(board).to receive(:empty?).and_return(false)
+          king = King.new(color: 'W', curr_position: 36)
+  
+          valid_moves = king.valid_moves(board)
+  
+          expect(valid_moves).to be_empty
+        end
+      end
+
+      context 'when king can take enemy piece' do
+        it 'returns an array of valid moves' do
+          board = double('board')
+          allow(board).to receive(:in_bounds?).and_return(true)
+          allow(board).to receive(:color).and_return('B')
+          allow(board).to receive(:empty?).and_return(false)
+          king = King.new(color: 'W', curr_position: 36)
+  
+          valid_moves = king.valid_moves(board)
+  
+          expect(valid_moves).to contain_exactly(27, 28, 29, 35, 37, 43, 44, 45)
+        end
+      end
+    end
+  end
+end
