@@ -171,7 +171,7 @@ describe Rook do
       end
     end
 
-    context 'when rook can take enemy piece' do
+    context 'when rook can take enemy pieces' do
       it 'returns an array of valid moves' do
         board = double('board')
         allow(board).to receive(:in_bounds?).and_return(true)
@@ -182,6 +182,52 @@ describe Rook do
         valid_moves = rook.valid_moves(board)
 
         expect(valid_moves).to contain_exactly(28, 35, 37, 44)
+      end
+    end
+  end
+end
+
+describe Bishop do
+  describe '#valid_moves' do
+    context 'when bishop is not blocked by other pieces' do
+      it 'returns array of valid moves' do
+        board = double('board')
+        allow(board).to receive(:in_bounds?).and_return(true, false, true, false, true, false, true, false)
+        allow(board).to receive(:color)
+        allow(board).to receive(:empty?).and_return(true)
+        bishop = Bishop.new(color: 'W', curr_position: 36)
+
+        valid_moves = bishop.valid_moves(board)
+
+        expect(valid_moves).to contain_exactly(27, 29, 43, 45)
+      end
+    end
+
+    context 'when bishop is fully blocked by team' do
+      it 'returns an empty array' do
+        board = double('board')
+        allow(board).to receive(:in_bounds?).and_return(true)
+        allow(board).to receive(:color).and_return('W')
+        allow(board).to receive(:empty?).and_return(false)
+        bishop = Bishop.new(color: 'W', curr_position: 36)
+
+        valid_moves = bishop.valid_moves(board)
+
+        expect(valid_moves).to be_empty
+      end
+    end
+
+    context 'when bishop can take enemy pieces' do
+      it 'returns an array of valid moves' do
+        board = double('board')
+        allow(board).to receive(:in_bounds?).and_return(true)
+        allow(board).to receive(:color).and_return('B')
+        allow(board).to receive(:empty?).and_return(false)
+        bishop = Bishop.new(color: 'W', curr_position: 36)
+
+        valid_moves = bishop.valid_moves(board)
+
+        expect(valid_moves).to contain_exactly(27, 29, 43, 45)
       end
     end
   end
