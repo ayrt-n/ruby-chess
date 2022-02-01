@@ -140,3 +140,21 @@ describe Knight do
     end
   end
 end
+
+describe Rook do
+  describe '#valid_moves' do
+    context 'when rook is not blocked by any other pieces' do
+      it 'returns an array of valid moves' do
+        board = double('board')
+        allow(board).to receive(:in_bounds?).and_return(true, false, true, false, true, false, true, false)
+        allow(board).to receive(:color)
+        allow(board).to receive(:empty?).and_return(true)
+        rook = Rook.new(color: 'W', curr_position: 36)
+
+        valid_moves = rook.valid_moves(board)
+
+        expect(valid_moves).to contain_exactly(28, 35, 37, 44)
+      end
+    end
+  end
+end
