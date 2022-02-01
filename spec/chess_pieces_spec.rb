@@ -158,7 +158,7 @@ describe Rook do
     end
 
     context 'when rook is fully blocked by team' do
-      it 'returns an array of valid moves' do
+      it 'returns an empty array' do
         board = double('board')
         allow(board).to receive(:in_bounds?).and_return(true)
         allow(board).to receive(:color).and_return('W')
@@ -168,6 +168,20 @@ describe Rook do
         valid_moves = rook.valid_moves(board)
 
         expect(valid_moves).to be_empty
+      end
+    end
+
+    context 'when rook can take enemy piece' do
+      it 'returns an array of valid moves' do
+        board = double('board')
+        allow(board).to receive(:in_bounds?).and_return(true)
+        allow(board).to receive(:color).and_return('B')
+        allow(board).to receive(:empty?).and_return(false)
+        rook = Rook.new(color: 'W', curr_position: 36)
+
+        valid_moves = rook.valid_moves(board)
+
+        expect(valid_moves).to contain_exactly(28, 35, 37, 44)
       end
     end
   end

@@ -113,6 +113,7 @@ class Rook < ChessPiece
 
       while move_valid?(board, next_move)
         valid_moves << next_move
+        break if take?(board, move)
 
         next_move += move
       end
@@ -129,5 +130,9 @@ class Rook < ChessPiece
 
   def move_valid?(board, move)
     board.in_bounds?(move) && (board.color(move) == enemy_color || board.empty?(move))
+  end
+
+  def take?(board, move)
+    board.color(move) == enemy_color
   end
 end
