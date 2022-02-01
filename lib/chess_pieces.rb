@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
+require './lib/movement'
+
 # Collection of chess piece classes
 # Base class ChessPiece contains general chess piece behaviour and attributes
 # Subclasses contain specialized behaviour for individual pieces (e.g., how they move)
 
 # Base class ChessPiece which contains general chess piece behaviour
 class ChessPiece
+  include Moveset
+
   attr_reader :color, :curr_position
 
   def initialize(color:, curr_position:)
@@ -125,7 +129,7 @@ class Rook < ChessPiece
   private
 
   def rook_moves
-    [8, -8, 1, -1]
+    [up_and_down, side_to_side].flatten
   end
 
   def move_valid?(board, move)
@@ -159,7 +163,7 @@ class Bishop < ChessPiece
   private
 
   def bishop_moves
-    [7, -7, 9, -9]
+    [diagonally].flatten
   end
 
   def move_valid?(board, move)
@@ -193,7 +197,7 @@ class Queen < ChessPiece
   private
 
   def queen_moves
-    [1, 7, 8, 9, -1, -7, -8, -9]
+    [up_and_down, side_to_side, diagonally].flatten
   end
 
   def move_valid?(board, move)
@@ -219,9 +223,9 @@ class King < ChessPiece
   end
 
   private
-  
+
   def king_moves
-    [1, 7, 8, 9, -1, -7, -8, -9]
+    [up_and_down, side_to_side, diagonally].flatten
   end
 
   def move_valid?(board, move)
