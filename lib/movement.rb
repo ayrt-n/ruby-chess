@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Module which defines chess piece movement (up/down/left/right/etc)
-module Moveset
+module Movement
   def up_and_down
     [up, down]
   end

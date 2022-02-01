@@ -8,7 +8,7 @@ require './lib/movement'
 
 # Base class ChessPiece which contains general chess piece behaviour
 class ChessPiece
-  include Moveset
+  include Movement
 
   attr_reader :color, :curr_position
 
