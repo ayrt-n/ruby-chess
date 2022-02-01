@@ -232,3 +232,49 @@ describe Bishop do
     end
   end
 end
+
+describe Queen do
+  describe '#valid_moves' do
+    context 'when queen is not blocked by other pieces' do
+      it 'returns an array of valid moves' do
+        board = double('board')
+        allow(board).to receive(:in_bounds?).and_return(true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false)
+        allow(board).to receive(:color)
+        allow(board).to receive(:empty?).and_return(true)
+        queen = Queen.new(color: 'W', curr_position: 36)
+
+        valid_moves = queen.valid_moves(board)
+
+        expect(valid_moves).to contain_exactly(27, 28, 29, 35, 37, 43, 44, 45)
+      end
+    end
+
+    context 'when queen is fully blocked by team' do
+      it 'returns an empty array' do
+        board = double('board')
+        allow(board).to receive(:in_bounds?).and_return(true)
+        allow(board).to receive(:color).and_return('W')
+        allow(board).to receive(:empty?).and_return(false)
+        queen = Queen.new(color: 'W', curr_position: 36)
+
+        valid_moves = queen.valid_moves(board)
+
+        expect(valid_moves).to be_empty
+      end
+    end
+
+    context 'when queen can take enemy pieces' do
+      it 'returns an array of valid moves' do
+        board = double('board')
+        allow(board).to receive(:in_bounds?).and_return(true)
+        allow(board).to receive(:color).and_return('B')
+        allow(board).to receive(:empty?).and_return(false)
+        queen = Queen.new(color: 'W', curr_position: 36)
+
+        valid_moves = queen.valid_moves(board)
+
+        expect(valid_moves).to contain_exactly(27, 28, 29, 35, 37, 43, 44, 45)
+      end
+    end
+  end
+end
