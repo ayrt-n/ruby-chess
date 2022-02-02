@@ -83,7 +83,8 @@ class Knight < ChessPiece
     valid_moves = []
 
     knight_moves.each do |move|
-      valid_moves << move if move_valid?(board, move)
+      next_move = curr_position + move
+      valid_moves << next_move if move_valid?(board, next_move)
     end
 
     valid_moves
@@ -92,14 +93,7 @@ class Knight < ChessPiece
   private
 
   def knight_moves
-    [curr_position + 6,
-     curr_position + 10,
-     curr_position + 15,
-     curr_position + 17,
-     curr_position - 6,
-     curr_position - 10,
-     curr_position - 15,
-     curr_position - 17]
+    [jumps].flatten
   end
 
   def move_valid?(board, move)
