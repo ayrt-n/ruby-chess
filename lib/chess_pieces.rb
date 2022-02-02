@@ -24,6 +24,10 @@ class ChessPiece
   def enemy_color
     color == 'W' ? 'B' : 'W'
   end
+
+  def take?(board, move)
+    board.color(move) == enemy_color
+  end
 end
 
 # Class containing pawn play logic
@@ -40,8 +44,8 @@ class Pawn < ChessPiece
 
     valid_moves << one_forward if one_forward_valid?(board)
     valid_moves << two_forward if two_forward_valid?(board)
-    valid_moves << one_left_diagonal if pawn_takes?(board, one_left_diagonal)
-    valid_moves << one_right_diagonal if pawn_takes?(board, one_right_diagonal)
+    valid_moves << one_left_diagonal if take?(board, one_left_diagonal)
+    valid_moves << one_right_diagonal if take?(board, one_right_diagonal)
 
     valid_moves
   end
@@ -62,10 +66,6 @@ class Pawn < ChessPiece
 
   def one_right_diagonal
     curr_position + (7 * direction)
-  end
-
-  def pawn_takes?(board, position)
-    board.color(position) == enemy_color && board.in_bounds?(position)
   end
 
   def one_forward_valid?(board)
@@ -135,10 +135,6 @@ class Rook < ChessPiece
   def move_valid?(board, move)
     board.in_bounds?(move) && (board.color(move) == enemy_color || board.empty?(move))
   end
-
-  def take?(board, move)
-    board.color(move) == enemy_color
-  end
 end
 
 # Class containing Bishop play logic
@@ -169,10 +165,6 @@ class Bishop < ChessPiece
   def move_valid?(board, move)
     board.in_bounds?(move) && (board.color(move) == enemy_color || board.empty?(move))
   end
-
-  def take?(board, move)
-    board.color(move) == enemy_color
-  end
 end
 
 # Class containing Queen play logic
@@ -202,10 +194,6 @@ class Queen < ChessPiece
 
   def move_valid?(board, move)
     board.in_bounds?(move) && (board.color(move) == enemy_color || board.empty?(move))
-  end
-
-  def take?(board, move)
-    board.color(move) == enemy_color
   end
 end
 
