@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './lib/movement'
+require './lib/pieces/movement'
 
 # Base class ChessPiece contains general chess piece behaviour and attributes
 # Subclasses contain specialized behaviour for individual pieces (i.e., how they move)
