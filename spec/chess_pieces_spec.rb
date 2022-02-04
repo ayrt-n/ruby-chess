@@ -87,61 +87,25 @@ end
 
 describe Knight do
   describe '#valid_moves' do
-    context 'when knight is not blocked by team' do
-      it 'returns array of valid moves' do
-        board = double('board')
-        allow(board).to receive(:color)
-        allow(board).to receive(:empty?).and_return(true)
-        allow(board).to receive(:in_bounds?).and_return(true)
-        knight = Knight.new(color: 'W', curr_position: 36)
+    it 'returns array of valid moves' do
+      board = double('board')
+      knight = Knight.new(color: 'W', curr_position: 36)
+      allow(knight).to receive(:move_valid?).and_return(true)
 
-        valid_moves = knight.valid_moves(board)
+      valid_moves = knight.valid_moves(board)
 
-        expect(valid_moves).to contain_exactly(19, 21, 26, 30, 42, 46, 51, 53) 
-      end
+      expect(valid_moves).to contain_exactly(19, 21, 26, 30, 42, 46, 51, 53)
     end
 
-    context 'when knight is fully blocked by team' do
+    context 'when there are no valid moves' do
       it 'returns empty array' do
         board = double('board')
-        allow(board).to receive(:color).and_return('W')
-        allow(board).to receive(:empty?).and_return(false)
-        allow(board).to receive(:in_bounds?).and_return(true)
         knight = Knight.new(color: 'W', curr_position: 36)
+        allow(knight).to receive(:move_valid?).and_return(false)
 
         valid_moves = knight.valid_moves(board)
 
         expect(valid_moves).to be_empty
-      end
-    end
-
-    context 'when one spot is blocked by team' do
-      it 'returns array of size one less than full potential moveset (8)' do
-        board = double('board')
-        allow(board).to receive(:color).and_return('W', 'B', nil)
-        allow(board).to receive(:empty?).and_return(false, true)
-        allow(board).to receive(:in_bounds?).and_return(true)
-        knight = Knight.new(color: 'W', curr_position: 36)
-
-        valid_moves = knight.valid_moves(board)
-        num_of_moves = valid_moves.size
-
-        expect(num_of_moves).to eql(7)
-      end
-    end
-
-    context 'when two moves are out of bounds of board' do
-      it 'returns array of size two less than full potential moveset (8)' do
-        board = double('board')
-        allow(board).to receive(:color)
-        allow(board).to receive(:empty?).and_return(true)
-        allow(board).to receive(:in_bounds?).and_return(false, false, true)
-        knight = Knight.new(color: 'W', curr_position: 12)
-
-        valid_moves = knight.valid_moves(board)
-        num_of_moves = valid_moves.size
-
-        expect(num_of_moves).to eql(6)
       end
     end
   end
@@ -149,27 +113,22 @@ end
 
 describe Rook do
   describe '#valid_moves' do
-    context 'when rook is not blocked by any other pieces' do
-      it 'returns an array of valid moves' do
-        board = double('board')
-        allow(board).to receive(:in_bounds?).and_return(true, false, true, false, true, false, true, false)
-        allow(board).to receive(:color)
-        allow(board).to receive(:empty?).and_return(true)
-        rook = Rook.new(color: 'W', curr_position: 36)
+    it 'returns array of valid moves' do
+      board = double('board')
+      rook = Rook.new(color: 'W', curr_position: 36)
+      allow(rook).to receive(:move_valid?).and_return(true, false, true, false, true, false, true, false)
+      allow(rook).to receive(:take?).and_return(false)
 
-        valid_moves = rook.valid_moves(board)
+      valid_moves = rook.valid_moves(board)
 
-        expect(valid_moves).to contain_exactly(28, 35, 37, 44)
-      end
+      expect(valid_moves).to contain_exactly(28, 35, 37, 44)
     end
 
-    context 'when rook is fully blocked by team' do
+    context 'when there are no valid moves' do
       it 'returns an empty array' do
         board = double('board')
-        allow(board).to receive(:in_bounds?).and_return(true)
-        allow(board).to receive(:color).and_return('W')
-        allow(board).to receive(:empty?).and_return(false)
         rook = Rook.new(color: 'W', curr_position: 36)
+        allow(rook).to receive(:move_valid?).and_return(false)
 
         valid_moves = rook.valid_moves(board)
 
@@ -177,13 +136,12 @@ describe Rook do
       end
     end
 
-    context 'when rook can take enemy pieces' do
-      it 'returns an array of valid moves' do
+    context 'when rook is blocked by enemy pieces' do
+      it 'returns array of valid moves' do
         board = double('board')
-        allow(board).to receive(:in_bounds?).and_return(true)
-        allow(board).to receive(:color).and_return('B')
-        allow(board).to receive(:empty?).and_return(false)
         rook = Rook.new(color: 'W', curr_position: 36)
+        allow(rook).to receive(:move_valid?).and_return(true)
+        allow(rook).to receive(:take?).and_return(true)
 
         valid_moves = rook.valid_moves(board)
 
@@ -195,27 +153,22 @@ end
 
 describe Bishop do
   describe '#valid_moves' do
-    context 'when bishop is not blocked by other pieces' do
-      it 'returns array of valid moves' do
-        board = double('board')
-        allow(board).to receive(:in_bounds?).and_return(true, false, true, false, true, false, true, false)
-        allow(board).to receive(:color)
-        allow(board).to receive(:empty?).and_return(true)
-        bishop = Bishop.new(color: 'W', curr_position: 36)
+    it 'returns array of valid moves' do
+      board = double('board')
+      bishop = Bishop.new(color: 'W', curr_position: 36)
+      allow(bishop).to receive(:move_valid?).and_return(true, false, true, false, true, false, true, false)
+      allow(bishop).to receive(:take?).and_return(false)
 
-        valid_moves = bishop.valid_moves(board)
+      valid_moves = bishop.valid_moves(board)
 
-        expect(valid_moves).to contain_exactly(27, 29, 43, 45)
-      end
+      expect(valid_moves).to contain_exactly(27, 29, 43, 45)
     end
 
-    context 'when bishop is fully blocked by team' do
+    context 'when there are no valid moves' do
       it 'returns an empty array' do
         board = double('board')
-        allow(board).to receive(:in_bounds?).and_return(true)
-        allow(board).to receive(:color).and_return('W')
-        allow(board).to receive(:empty?).and_return(false)
         bishop = Bishop.new(color: 'W', curr_position: 36)
+        allow(bishop).to receive(:move_valid?).and_return(false)
 
         valid_moves = bishop.valid_moves(board)
 
@@ -223,13 +176,12 @@ describe Bishop do
       end
     end
 
-    context 'when bishop can take enemy pieces' do
-      it 'returns an array of valid moves' do
+    context 'when bishop is blocked by enemy pieces' do
+      it 'returns array of valid moves' do
         board = double('board')
-        allow(board).to receive(:in_bounds?).and_return(true)
-        allow(board).to receive(:color).and_return('B')
-        allow(board).to receive(:empty?).and_return(false)
         bishop = Bishop.new(color: 'W', curr_position: 36)
+        allow(bishop).to receive(:move_valid?).and_return(true)
+        allow(bishop).to receive(:take?).and_return(true)
 
         valid_moves = bishop.valid_moves(board)
 
@@ -241,27 +193,22 @@ end
 
 describe Queen do
   describe '#valid_moves' do
-    context 'when queen is not blocked by other pieces' do
-      it 'returns an array of valid moves' do
-        board = double('board')
-        allow(board).to receive(:in_bounds?).and_return(true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false)
-        allow(board).to receive(:color)
-        allow(board).to receive(:empty?).and_return(true)
-        queen = Queen.new(color: 'W', curr_position: 36)
+    it 'returns array of valid moves' do
+      board = double('board')
+      queen = Queen.new(color: 'W', curr_position: 36)
+      allow(queen).to receive(:move_valid?).and_return(true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false)
+      allow(queen).to receive(:take?).and_return(false)
 
-        valid_moves = queen.valid_moves(board)
+      valid_moves = queen.valid_moves(board)
 
-        expect(valid_moves).to contain_exactly(27, 28, 29, 35, 37, 43, 44, 45)
-      end
+      expect(valid_moves).to contain_exactly(27, 28, 29, 35, 37, 43, 44, 45)
     end
 
-    context 'when queen is fully blocked by team' do
+    context 'when there are no valid moves' do
       it 'returns an empty array' do
         board = double('board')
-        allow(board).to receive(:in_bounds?).and_return(true)
-        allow(board).to receive(:color).and_return('W')
-        allow(board).to receive(:empty?).and_return(false)
         queen = Queen.new(color: 'W', curr_position: 36)
+        allow(queen).to receive(:move_valid?).and_return(false)
 
         valid_moves = queen.valid_moves(board)
 
@@ -269,13 +216,12 @@ describe Queen do
       end
     end
 
-    context 'when queen can take enemy pieces' do
+    context 'when queen is blocked by enemy pieces' do
       it 'returns an array of valid moves' do
         board = double('board')
-        allow(board).to receive(:in_bounds?).and_return(true)
-        allow(board).to receive(:color).and_return('B')
-        allow(board).to receive(:empty?).and_return(false)
         queen = Queen.new(color: 'W', curr_position: 36)
+        allow(queen).to receive(:move_valid?).and_return(true)
+        allow(queen).to receive(:take?).and_return(true)
 
         valid_moves = queen.valid_moves(board)
 
@@ -287,59 +233,25 @@ end
 
 describe King do
   describe '#valid_moves' do
-    context 'when king is not blocked by other pieces' do
-      it 'returns an array of valid moves' do
-        board = double('board')
-        allow(board).to receive(:in_bounds?).and_return(true)
-        allow(board).to receive(:color)
-        allow(board).to receive(:empty?).and_return(true)
-        king = King.new(color: 'W', curr_position: 36)
+    it 'returns array of valid moves' do
+      board = double('board')
+      king = King.new(color: 'W', curr_position: 36)
+      allow(king).to receive(:move_valid?).and_return(true)
 
-        valid_moves = king.valid_moves(board)
+      valid_moves = king.valid_moves(board)
 
-        expect(valid_moves).to contain_exactly(27, 28, 29, 35, 37, 43, 44, 45)
-      end
+      expect(valid_moves).to contain_exactly(27, 28, 29, 35, 37, 43, 44, 45)
     end
 
-    context 'when king is blocked by boundaries of board' do
+    context 'when there are no valid moves' do
       it 'returns an empty array' do
         board = double('board')
-        allow(board).to receive(:in_bounds?).and_return(false)
-        allow(board).to receive(:color)
-        allow(board).to receive(:empty?)
         king = King.new(color: 'W', curr_position: 36)
+        allow(king).to receive(:move_valid?).and_return(false)
 
         valid_moves = king.valid_moves(board)
 
         expect(valid_moves).to be_empty
-      end
-
-      context 'when king is blocked by team' do
-        it 'returns an empty array' do
-          board = double('board')
-          allow(board).to receive(:in_bounds?).and_return(true)
-          allow(board).to receive(:color).and_return('W')
-          allow(board).to receive(:empty?).and_return(false)
-          king = King.new(color: 'W', curr_position: 36)
-  
-          valid_moves = king.valid_moves(board)
-  
-          expect(valid_moves).to be_empty
-        end
-      end
-
-      context 'when king can take enemy piece' do
-        it 'returns an array of valid moves' do
-          board = double('board')
-          allow(board).to receive(:in_bounds?).and_return(true)
-          allow(board).to receive(:color).and_return('B')
-          allow(board).to receive(:empty?).and_return(false)
-          king = King.new(color: 'W', curr_position: 36)
-  
-          valid_moves = king.valid_moves(board)
-  
-          expect(valid_moves).to contain_exactly(27, 28, 29, 35, 37, 43, 44, 45)
-        end
       end
     end
   end
