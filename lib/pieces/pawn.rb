@@ -2,20 +2,21 @@
 
 # Class containing pawn play logic
 class Pawn < ChessPiece
-  attr_reader :direction, :moved
+  attr_reader :direction
+  attr_accessor :moved
 
   def post_init
-    @direction = (color == 'W' ? -1 : 1)
+    @direction = (color == 'W' ? 1 : -1)
     @moved = false
   end
 
   def valid_moves(board)
     valid_moves = []
 
-    valid_moves << one_forward if one_forward_valid?(board)
-    valid_moves << two_forward if two_forward_valid?(board)
-    valid_moves << one_left_diagonal if take?(board, one_left_diagonal)
-    valid_moves << one_right_diagonal if take?(board, one_right_diagonal)
+    valid_moves << one_forward if move_valid?(board, one_forward)
+    valid_moves << two_forward if move_valid?(board, one_forward) && move_valid?(board, two_forward) && not_moved?
+    valid_moves << left_diagonal if take?(board, left_diagonal)
+    valid_moves << right_diagonal if take?(board, right_diagonal)
 
     valid_moves
   end
@@ -23,26 +24,26 @@ class Pawn < ChessPiece
   private
 
   def one_forward
-    curr_position + (8 * direction)
+    curr_position + (up * direction)
   end
 
   def two_forward
-    one_forward + (8 * direction)
+    curr_position + (up * direction * 2)
   end
 
-  def one_left_diagonal
-    curr_position + (9 * direction)
+  def left_diagonal
+    curr_position + (up_left * direction)
   end
 
-  def one_right_diagonal
-    curr_position + (7 * direction)
+  def right_diagonal
+    curr_position + (up_right * direction)
   end
 
-  def one_forward_valid?(board)
-    board.empty?(one_forward) && board.in_bounds?(one_forward)
+  def move_valid?(board, move)
+    board.empty?(move) && board.in_bounds?(move)
   end
 
-  def two_forward_valid?(board)
-    board.empty?(one_forward) && board.empty?(two_forward) && board.in_bounds?(two_forward) && !moved
+  def not_moved?
+    !moved
   end
 end
