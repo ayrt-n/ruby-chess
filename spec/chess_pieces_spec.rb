@@ -13,7 +13,7 @@ describe Pawn do
     context 'when pawn has not moved and cannot take' do
       it 'returns array of valid moves' do
         board = double('board')
-        pawn = Pawn.new(color: 'W')
+        pawn = Pawn.new('W')
         allow(pawn).to receive(:move_valid?).and_return(true)
         allow(pawn).to receive(:take?).and_return(false)
         current_position = 19
@@ -27,7 +27,7 @@ describe Pawn do
     context 'when pawn has moved and cannot take' do
       it 'returns array of valid moves' do
         board = double('board')
-        pawn = Pawn.new(color: 'W')
+        pawn = Pawn.new('W')
         allow(pawn).to receive(:move_valid?).and_return(true)
         allow(pawn).to receive(:not_moved?).and_return(false)
         allow(pawn).to receive(:take?).and_return(false)
@@ -42,7 +42,7 @@ describe Pawn do
     context 'when pawn has not moved and can take' do
       it 'returns array of valid moves' do
         board = double('board')
-        pawn = Pawn.new(color: 'W')
+        pawn = Pawn.new('W')
         allow(pawn).to receive(:move_valid?).and_return(true)
         allow(pawn).to receive(:take?).and_return(true)
         current_position = 19
@@ -56,7 +56,7 @@ describe Pawn do
     context 'when no valid moves' do
       it 'returns array of valid moves' do
         board = double('board')
-        pawn = Pawn.new(color: 'W')
+        pawn = Pawn.new('W')
         allow(pawn).to receive(:move_valid?).and_return(false)
         allow(pawn).to receive(:take?).and_return(false)
         current_position = 19
@@ -73,7 +73,7 @@ describe Knight do
   describe '#valid_moves' do
     it 'returns array of valid moves' do
       board = double('board')
-      knight = Knight.new(color: 'W')
+      knight = Knight.new('W')
       allow(knight).to receive(:move_valid?).and_return(true)
       current_position = 36
 
@@ -85,7 +85,7 @@ describe Knight do
     context 'when there are no valid moves' do
       it 'returns empty array' do
         board = double('board')
-        knight = Knight.new(color: 'W')
+        knight = Knight.new('W')
         allow(knight).to receive(:move_valid?).and_return(false)
         current_position = 36
 
@@ -101,7 +101,7 @@ describe Rook do
   describe '#valid_moves' do
     it 'returns array of valid moves' do
       board = double('board')
-      rook = Rook.new(color: 'W')
+      rook = Rook.new('W')
       allow(rook).to receive(:move_valid?).and_return(true, false, true, false, true, false, true, false)
       allow(rook).to receive(:take?).and_return(false)
       current_position = 36
@@ -114,7 +114,7 @@ describe Rook do
     context 'when there are no valid moves' do
       it 'returns an empty array' do
         board = double('board')
-        rook = Rook.new(color: 'W')
+        rook = Rook.new('W')
         allow(rook).to receive(:move_valid?).and_return(false)
         current_position = 36
 
@@ -127,7 +127,7 @@ describe Rook do
     context 'when rook is blocked by enemy pieces' do
       it 'returns array of valid moves' do
         board = double('board')
-        rook = Rook.new(color: 'W')
+        rook = Rook.new('W')
         allow(rook).to receive(:move_valid?).and_return(true)
         allow(rook).to receive(:take?).and_return(true)
         current_position = 36
@@ -144,7 +144,7 @@ describe Bishop do
   describe '#valid_moves' do
     it 'returns array of valid moves' do
       board = double('board')
-      bishop = Bishop.new(color: 'W')
+      bishop = Bishop.new('W')
       allow(bishop).to receive(:move_valid?).and_return(true, false, true, false, true, false, true, false)
       allow(bishop).to receive(:take?).and_return(false)
       current_position = 36
@@ -157,7 +157,7 @@ describe Bishop do
     context 'when there are no valid moves' do
       it 'returns an empty array' do
         board = double('board')
-        bishop = Bishop.new(color: 'W')
+        bishop = Bishop.new('W')
         allow(bishop).to receive(:move_valid?).and_return(false)
         current_position = 36
 
@@ -170,7 +170,7 @@ describe Bishop do
     context 'when bishop is blocked by enemy pieces' do
       it 'returns array of valid moves' do
         board = double('board')
-        bishop = Bishop.new(color: 'W')
+        bishop = Bishop.new('W')
         allow(bishop).to receive(:move_valid?).and_return(true)
         allow(bishop).to receive(:take?).and_return(true)
         current_position = 36
@@ -187,7 +187,7 @@ describe Queen do
   describe '#valid_moves' do
     it 'returns array of valid moves' do
       board = double('board')
-      queen = Queen.new(color: 'W')
+      queen = Queen.new('W')
       allow(queen).to receive(:move_valid?).and_return(true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false)
       allow(queen).to receive(:take?).and_return(false)
       current_position = 36
@@ -200,7 +200,7 @@ describe Queen do
     context 'when there are no valid moves' do
       it 'returns an empty array' do
         board = double('board')
-        queen = Queen.new(color: 'W')
+        queen = Queen.new('W')
         allow(queen).to receive(:move_valid?).and_return(false)
         current_position = 36
 
@@ -213,7 +213,7 @@ describe Queen do
     context 'when queen is blocked by enemy pieces' do
       it 'returns an array of valid moves' do
         board = double('board')
-        queen = Queen.new(color: 'W')
+        queen = Queen.new('W')
         allow(queen).to receive(:move_valid?).and_return(true)
         allow(queen).to receive(:take?).and_return(true)
         current_position = 36
@@ -230,7 +230,7 @@ describe King do
   describe '#valid_moves' do
     it 'returns array of valid moves' do
       board = double('board')
-      king = King.new(color: 'W')
+      king = King.new('W')
       allow(king).to receive(:move_valid?).and_return(true)
       current_position = 36
 
@@ -242,7 +242,7 @@ describe King do
     context 'when there are no valid moves' do
       it 'returns an empty array' do
         board = double('board')
-        king = King.new(color: 'W')
+        king = King.new('W')
         allow(king).to receive(:move_valid?).and_return(false)
         current_position = 36
 
