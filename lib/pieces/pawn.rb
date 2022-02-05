@@ -10,13 +10,13 @@ class Pawn < ChessPiece
     @moved = false
   end
 
-  def valid_moves(board)
+  def valid_moves(board, pos)
     valid_moves = []
 
-    valid_moves << one_forward if move_valid?(board, one_forward)
-    valid_moves << two_forward if move_valid?(board, one_forward) && move_valid?(board, two_forward) && not_moved?
-    valid_moves << left_diagonal if take?(board, left_diagonal)
-    valid_moves << right_diagonal if take?(board, right_diagonal)
+    valid_moves << one_forward(pos) if move_valid?(board, one_forward(pos))
+    valid_moves << two_forward(pos) if move_valid?(board, one_forward(pos)) && move_valid?(board, two_forward(pos)) && not_moved?
+    valid_moves << left_diagonal(pos) if take?(board, left_diagonal(pos))
+    valid_moves << right_diagonal(pos) if take?(board, right_diagonal(pos))
 
     valid_moves
   end
@@ -27,20 +27,20 @@ class Pawn < ChessPiece
 
   private
 
-  def one_forward
-    curr_position + (up * direction)
+  def one_forward(pos)
+    pos + (up * direction)
   end
 
-  def two_forward
-    curr_position + (up * direction * 2)
+  def two_forward(pos)
+    pos + (up * direction * 2)
   end
 
-  def left_diagonal
-    curr_position + (up_left * direction)
+  def left_diagonal(pos)
+    pos + (up_left * direction)
   end
 
-  def right_diagonal
-    curr_position + (up_right * direction)
+  def right_diagonal(pos)
+    pos + (up_right * direction)
   end
 
   def move_valid?(board, move)

@@ -2,11 +2,11 @@
 
 # Class containing Queen play logic
 class Queen < ChessPiece
-  def valid_moves(board)
+  def valid_moves(board, pos)
     valid_moves = []
 
     queen_moves.each do |move|
-      next_move = curr_position + move
+      next_move = pos + move
 
       while move_valid?(board, next_move)
         valid_moves << next_move

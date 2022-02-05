@@ -2,11 +2,11 @@
 
 # Class containing knight play logic
 class Knight < ChessPiece
-  def valid_moves(board)
+  def valid_moves(board, pos)
     valid_moves = []
 
     knight_moves.each do |move|
-      next_move = curr_position + move
+      next_move = pos + move
       valid_moves << next_move if move_valid?(board, next_move)
     end
 
