@@ -19,6 +19,10 @@ class Queen < ChessPiece
     valid_moves
   end
 
+  def to_s
+    '♚'
+  end
+
   private
 
   def queen_moves

@@ -13,6 +13,10 @@ class Knight < ChessPiece
     valid_moves
   end
 
+  def to_s
+    '♞'
+  end
+
   private
 
   def knight_moves
