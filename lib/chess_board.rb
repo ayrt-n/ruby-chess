@@ -37,13 +37,18 @@ class ChessBoard
     board[position].color
   end
 
-  def pretty_print
+  def pretty_print(highlight = [])
     puts ''
     board.each_with_index do |sq, index|
       print " #{8 - (index / 8)} " if (index % 8).zero?
-      pattern = (index / 8).even? ? %i[red light_black] : %i[light_black red]
 
-      if sq.nil? 
+      pattern = if highlight.include?(index)
+                  %i[light_yellow light_yellow]
+                else
+                  (index / 8).even? ? %i[red light_black] : %i[light_black red]
+                end
+
+      if sq.nil?
         print '   '.colorize(:background => pattern[index % 2])
       else
         print " #{sq} ".colorize(:background => pattern[index % 2])
@@ -75,3 +80,7 @@ class ChessBoard
     Array.new(8) { Pawn.new(color) }
   end
 end
+
+board = ChessBoard.new
+board.pretty_print
+board.pretty_print([62, 45, 47])
