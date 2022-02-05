@@ -20,7 +20,7 @@ class Rook < ChessPiece
   end
 
   def to_s
-    '♜'
+    '♜'.colorize(color)
   end
 
   private
