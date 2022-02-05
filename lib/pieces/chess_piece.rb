@@ -20,17 +20,13 @@ class ChessPiece
 
   def post_init; end
 
-  def enemy_color
-    color == 'W' ? 'B' : 'W'
-  end
-
   private
 
   def move_valid?(board, move)
-    board.in_bounds?(move) && (board.color(move) == enemy_color || board.empty?(move))
+    board.in_bounds?(move) && (board.color(move) != color || board.empty?(move))
   end
 
   def take?(board, move)
-    board.color(move) == enemy_color
+    board.color(move) != color
   end
 end
