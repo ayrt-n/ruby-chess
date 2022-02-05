@@ -18,8 +18,4 @@ class Knight < ChessPiece
   def knight_moves
     [jumps].flatten
   end
-
-  def move_valid?(board, move)
-    board.in_bounds?(move) && (board.color(move) == enemy_color || board.empty?(move))
-  end
 end

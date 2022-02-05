@@ -24,6 +24,12 @@ class ChessPiece
     color == 'W' ? 'B' : 'W'
   end
 
+  private
+
+  def move_valid?(board, move)
+    board.in_bounds?(move) && (board.color(move) == enemy_color || board.empty?(move))
+  end
+
   def take?(board, move)
     board.color(move) == enemy_color
   end

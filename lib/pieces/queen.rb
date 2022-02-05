@@ -24,8 +24,4 @@ class Queen < ChessPiece
   def queen_moves
     [up_and_down, side_to_side, diagonally].flatten
   end
-
-  def move_valid?(board, move)
-    board.in_bounds?(move) && (board.color(move) == enemy_color || board.empty?(move))
-  end
 end

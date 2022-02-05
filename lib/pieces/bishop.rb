@@ -24,8 +24,4 @@ class Bishop < ChessPiece
   def bishop_moves
     [diagonally].flatten
   end
-
-  def move_valid?(board, move)
-    board.in_bounds?(move) && (board.color(move) == enemy_color || board.empty?(move))
-  end
 end
