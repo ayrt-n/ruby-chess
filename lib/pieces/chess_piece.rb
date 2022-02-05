@@ -9,11 +9,10 @@ require './lib/pieces/movement'
 class ChessPiece
   include Movement
 
-  attr_reader :color, :curr_position
+  attr_reader :color
 
-  def initialize(color:, curr_position:)
+  def initialize(color:)
     @color = color
-    @curr_position = curr_position
 
     post_init
   end
