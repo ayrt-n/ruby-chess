@@ -10,14 +10,12 @@ require './lib/pieces/king'
 
 describe Pawn do
   describe '#valid_moves' do
-    context 'when path not blocked and pawn has not moved' do
+    context 'when pawn has not moved and cannot take' do
       it 'returns array of valid moves' do
         board = double('board')
-        allow(board).to receive(:empty?).and_return(true)
-        allow(board).to receive(:in_bounds?).and_return(true)
-        allow(board).to receive(:color)
-        allow(board).to receive(:empty?).and_return(true)
         pawn = Pawn.new(color: 'W', curr_position: 19)
+        allow(pawn).to receive(:move_valid?).and_return(true)
+        allow(pawn).to receive(:take?).and_return(false)
 
         valid_moves = pawn.valid_moves(board)
 
@@ -25,61 +23,43 @@ describe Pawn do
       end
     end
 
-    context 'when path is fully blocked' do
-      it 'returns empty array' do
+    context 'when pawn has moved and cannot take' do
+      it 'returns array of valid moves' do
         board = double('board')
-        allow(board).to receive(:empty?).and_return(false)
-        allow(board).to receive(:in_bounds?).and_return(true)
-        allow(board).to receive(:color).and_return('W')
         pawn = Pawn.new(color: 'W', curr_position: 19)
+        allow(pawn).to receive(:move_valid?).and_return(true)
+        allow(pawn).to receive(:not_moved?).and_return(false)
+        allow(pawn).to receive(:take?).and_return(false)
+
+        valid_moves = pawn.valid_moves(board)
+
+        expect(valid_moves).to contain_exactly(11)
+      end
+    end
+
+    context 'when pawn has not moved and can take' do
+      it 'returns array of valid moves' do
+        board = double('board')
+        pawn = Pawn.new(color: 'W', curr_position: 19)
+        allow(pawn).to receive(:move_valid?).and_return(true)
+        allow(pawn).to receive(:take?).and_return(true)
+
+        valid_moves = pawn.valid_moves(board)
+
+        expect(valid_moves).to contain_exactly(3, 11, 10, 12)
+      end
+    end
+
+    context 'when no valid moves' do
+      it 'returns array of valid moves' do
+        board = double('board')
+        pawn = Pawn.new(color: 'W', curr_position: 19)
+        allow(pawn).to receive(:move_valid?).and_return(false)
+        allow(pawn).to receive(:take?).and_return(false)
 
         valid_moves = pawn.valid_moves(board)
 
         expect(valid_moves).to be_empty
-      end
-    end
-
-    context 'when path is partially blocked' do
-      it 'returns array of valid moves' do
-        board = double('board')
-        allow(board).to receive(:empty?).and_return(true, false)
-        allow(board).to receive(:in_bounds?).and_return(true)
-        allow(board).to receive(:color).and_return('W')
-        pawn = Pawn.new(color: 'W', curr_position: 19)
-
-        valid_moves = pawn.valid_moves(board)
-
-        expect(valid_moves).to contain_exactly(11)
-      end
-    end
-
-    context 'when path is not blocked but pawn has moved' do
-      it 'returns array of valid moves' do
-        board = double('board')
-        allow(board).to receive(:empty?).and_return(true)
-        allow(board).to receive(:in_bounds?).and_return(true)
-        allow(board).to receive(:color)
-        pawn = Pawn.new(color: 'W', curr_position: 19)
-        allow(pawn).to receive(:moved).and_return(true)
-
-
-        valid_moves = pawn.valid_moves(board)
-
-        expect(valid_moves).to contain_exactly(11)
-      end
-    end
-
-    context 'when pawn can take to the left/right diagonal' do
-      it 'returns array of valid moves' do
-        board = double('board')
-        allow(board).to receive(:empty?).and_return(false)
-        allow(board).to receive(:color).and_return('B')
-        allow(board).to receive(:in_bounds?).and_return(true)
-        pawn = Pawn.new(color: 'W', curr_position: 19)
-
-        valid_moves = pawn.valid_moves(board)
-
-        expect(valid_moves).to contain_exactly(10, 12)
       end
     end
   end
