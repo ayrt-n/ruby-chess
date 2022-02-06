@@ -12,4 +12,13 @@ class ChessGame
     @other_player = p2
     @board = board
   end
+
+  def prompt_player_move
+    loop do
+      input = gets.chomp
+      return input if valid_coord?(input)
+
+      puts 'Invalid move - Please enter valid coordinate'
+    end
+  end
 end
