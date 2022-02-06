@@ -35,7 +35,7 @@ class ChessBoard
   def color(position)
     return if empty?(position)
 
-    board[position].color
+    board[position[0]][position[1]].color
   end
 
   def pretty_print(highlight = [])
