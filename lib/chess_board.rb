@@ -64,12 +64,12 @@ class ChessBoard
   def new_board
     [create_chessmen(:black),
      create_pawns(:black),
-     nil, nil, nil, nil, nil, nil, nil, nil,
-     nil, nil, nil, nil, nil, nil, nil, nil,
-     nil, nil, nil, nil, nil, nil, nil, nil,
-     nil, nil, nil, nil, nil, nil, nil, nil,
+     create_nil_row,
+     create_nil_row,
+     create_nil_row,
+     create_nil_row,
      create_pawns(:white),
-     create_chessmen(:white)].flatten
+     create_chessmen(:white)]
   end
 
   def create_chessmen(color)
@@ -78,5 +78,9 @@ class ChessBoard
 
   def create_pawns(color)
     Array.new(8) { Pawn.new(color) }
+  end
+
+  def create_nil_row
+    [nil, nil, nil, nil, nil, nil, nil, nil]
   end
 end
