@@ -12,9 +12,20 @@ class ChessGame
     @board = board
   end
 
+  def select_move(piece)
+    valid_moves = board.board[piece].valid_moves
+
+    loop do
+      move = prompt_player_move
+      return move if valid_moves.include?(move)
+
+      puts 'Invalid move - Please select a valid move'
+    end
+  end
+
   def select_piece
     loop do
-      position = prompt_player_move
+      position = chess_to_array_index(prompt_player_move)
       return position if board.color(position) == current_player
 
       puts 'Invalid selection - Please select one of your pieces'
