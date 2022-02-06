@@ -6,7 +6,7 @@ class Pawn < ChessPiece
   attr_accessor :moved
 
   def post_init
-    @direction = (color == 'W' ? 1 : -1)
+    @direction = (color == :white ? 1 : -1)
     @moved = false
   end
 
