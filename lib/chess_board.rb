@@ -19,8 +19,8 @@ class ChessBoard
   end
 
   def move(starting, ending)
-    board[ending] = board[starting]
-    board[starting] = nil
+    board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
+    board[starting[0]][starting[1]] = nil
   end
 
   def in_bounds?(position)
