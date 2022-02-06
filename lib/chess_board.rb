@@ -24,7 +24,8 @@ class ChessBoard
   end
 
   def in_bounds?(position)
-    position >= 0 && position < board.size
+    position[0] >= 0 && position[0] < board.size &&
+      position[1] >= 0 && position[1] < board[0].size
   end
 
   def empty?(position)

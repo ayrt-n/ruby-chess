@@ -14,14 +14,19 @@ describe ChessBoard do
   end
 
   describe '#in_bounds?' do
-    xit 'returns true when position is in bounds of board' do
-      example_board = ChessBoard.new([1, nil, nil, nil, nil])
-      expect(example_board).to be_in_bounds(3)
+    it 'returns true when position is in bounds of board' do
+      example_board = ChessBoard.new([[1, nil, nil], [nil, nil, nil]])
+      expect(example_board).to be_in_bounds([0, 0])
     end
 
-    xit 'returns false when position is out of bounds of board' do
-      example_board = ChessBoard.new([1, nil, nil, nil, nil])
-      expect(example_board).not_to be_in_bounds(5)
+    it 'returns false when position is out of bounds of board' do
+      example_board = ChessBoard.new([[1, nil, nil], [nil, nil, nil]])
+      expect(example_board).not_to be_in_bounds([0, 5])
+    end
+
+    it 'returns false when position is out of bounds of board' do
+      example_board = ChessBoard.new([[1, nil, nil], [nil, nil, nil]])
+      expect(example_board).not_to be_in_bounds([-1, 2])
     end
   end
 
