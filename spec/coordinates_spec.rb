@@ -26,4 +26,30 @@ describe Coordinates do
       expect(array_index).to eql(28)
     end
   end
+
+  describe '#valid_coord?' do
+    it 'returns true when string is correctly formatted as chess coordinate' do
+      chess_coord = 'a9'
+      is_valid = valid_coord?(chess_coord)
+      expect(is_valid).to eql(true)
+    end
+
+    it 'returns false when string is correctly formatted as chess coordinate' do
+      chess_coord = ''
+      is_valid = valid_coord?(chess_coord)
+      expect(is_valid).to eql(false)
+    end
+
+    it 'returns false when string is correctly formatted as chess coordinate' do
+      chess_coord = 'ax'
+      is_valid = valid_coord?(chess_coord)
+      expect(is_valid).to eql(false)
+    end
+
+    it 'returns false when string is correctly formatted as chess coordinate' do
+      chess_coord = 'z2'
+      is_valid = valid_coord?(chess_coord)
+      expect(is_valid).to eql(false)
+    end
+  end
 end

@@ -19,4 +19,10 @@ module Coordinates
 
     x + y
   end
+
+  def valid_coord?(string)
+    return false if string.size != 2
+
+    !!string[0].match(/^[a-hA-H]/) && !!string[-1].match(/[0-9]/)
+  end
 end
