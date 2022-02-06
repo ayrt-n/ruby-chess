@@ -32,7 +32,7 @@ class ChessBoard
   end
 
   def color(position)
-    return if board.empty?(position)
+    return if empty?(position)
 
     board[position].color
   end
@@ -80,7 +80,3 @@ class ChessBoard
     Array.new(8) { Pawn.new(color) }
   end
 end
-
-board = ChessBoard.new
-board.pretty_print
-board.pretty_print([62, 45, 47])
