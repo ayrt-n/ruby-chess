@@ -27,6 +27,6 @@ class ChessPiece
   end
 
   def take?(board, move)
-    board.color(move) != color
+    board.color(move) != color && !board.empty?(move)
   end
 end
