@@ -29,7 +29,7 @@ class ChessBoard
   end
 
   def empty?(position)
-    board[position].nil?
+    board[position[0]][position[1]].nil?
   end
 
   def color(position)
