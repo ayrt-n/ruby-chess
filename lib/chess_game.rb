@@ -23,8 +23,9 @@ class ChessGame
   end
 
   def select_move(piece)
-    valid_moves = board.board[piece].valid_moves(board, piece)
-    board.pretty_print([piece, valid_moves].flatten)
+    valid_moves = board.at_index(piece).valid_moves(board, piece)
+    selected = [piece] + valid_moves
+    board.pretty_print(selected)
 
     loop do
       move = chess_to_array_index(prompt_player_move)
