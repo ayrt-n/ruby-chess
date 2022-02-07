@@ -66,8 +66,12 @@ module Movement
     [1, -2]
   end
 
-  def up_down_left_right
-    [up, down, left, right]
+  def up_and_down
+    [up, down]
+  end
+
+  def side_to_side
+    [left, right]
   end
 
   def diagonally
