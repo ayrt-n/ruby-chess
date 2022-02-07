@@ -38,6 +38,10 @@ class ChessBoard
     board[position[0]][position[1]].color
   end
 
+  def at_index(position)
+    board[position[0]][position[1]]
+  end
+
   def pretty_print(highlight = [])
     puts ''
     board.each_with_index do |sq, index|

@@ -41,4 +41,12 @@ describe ChessBoard do
       expect(example_board).not_to be_empty([0, 0])
     end
   end
+
+  describe '#at_index' do
+    it 'returns the element given board coordinates' do
+      example_board = ChessBoard.new([[1, nil, nil], [nil, nil, nil]])
+      board_element = example_board.at_index([0, 0])
+      expect(board_element).to eql(1)
+    end
+  end
 end
