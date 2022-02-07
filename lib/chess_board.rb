@@ -44,22 +44,23 @@ class ChessBoard
 
   def pretty_print(highlight = [])
     puts ''
-    board.each_with_index do |sq, index|
-      print " #{8 - (index / 8)} " if (index % 8).zero?
+    board.each_with_index do |row, row_num|
+      print " #{8 - row_num} "
 
-      pattern = if highlight.include?(index)
-                  %i[light_yellow light_yellow]
-                else
-                  (index / 8).even? ? %i[red light_black] : %i[light_black red]
-                end
+      row.each_with_index do |sq, col_num|
+        pattern = if highlight.include?([row_num, col_num])
+                    %i[light_yellow light_yellow]
+                  else
+                    (row_num).even? ? %i[red light_black] : %i[light_black red]
+                  end
 
-      if sq.nil?
-        print '   '.colorize(:background => pattern[index % 2])
-      else
-        print " #{sq} ".colorize(:background => pattern[index % 2])
+        if sq.nil?
+          print '   '.colorize(:background => pattern[col_num % 2])
+        else
+          print " #{sq} ".colorize(:background => pattern[col_num % 2])
+        end
       end
-
-      puts '' if ((index + 1) % 8).zero?
+      puts ''
     end
     puts '    a  b  c  d  e  f  g  h '
   end
