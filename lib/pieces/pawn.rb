@@ -28,19 +28,35 @@ class Pawn < ChessPiece
   private
 
   def one_forward(pos)
-    pos + (up * direction)
+    if direction == 1
+      move(pos, up)
+    else
+      move(pos, down)
+    end
   end
 
   def two_forward(pos)
-    pos + (up * direction * 2)
+    if direction == 1
+      move(one_forward(pos), up)
+    else
+      move(one_forward(pos), down)
+    end
   end
 
   def left_diagonal(pos)
-    pos + (up_left * direction)
+    if direction == 1
+      move(pos, up_left)
+    else
+      move(pos, down_left)
+    end
   end
 
   def right_diagonal(pos)
-    pos + (up_right * direction)
+    if direction == 1
+      move(pos, up_right)
+    else
+      move(pos, down_right)
+    end
   end
 
   def move_valid?(board, move)
