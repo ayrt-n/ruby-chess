@@ -26,6 +26,6 @@ class Rook < ChessPiece
   private
 
   def rook_moves
-    up_down_left_right
+    up_and_down + side_to_side
   end
 end
