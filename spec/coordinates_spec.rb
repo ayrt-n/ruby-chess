@@ -8,28 +8,28 @@ end
 
 describe Coordinates do
   describe '#chess_to_array_index' do
-    it 'converts chess coordinate into appropriate array index (0-63)' do
+    it 'converts chess coordinate into appropriate array coordinate [y, x]' do
       chess_coord = 'a8'
       array_index = chess_to_array_index(chess_coord)
-      expect(array_index).to eql(0)
+      expect(array_index).to eql([0, 0])
     end
 
-    it 'converts chess coordinate into appropriate array index (0-63)' do
+    it 'converts chess coordinate into appropriate array index [y, x]' do
       chess_coord = 'h1'
       array_index = chess_to_array_index(chess_coord)
-      expect(array_index).to eql(63)
+      expect(array_index).to eql([7, 7])
     end
 
-    it 'converts chess coordinate into appropriate array index(0-63)' do
+    it 'converts chess coordinate into appropriate array index [y, x]' do
       chess_coord = 'e5'
       array_index = chess_to_array_index(chess_coord)
-      expect(array_index).to eql(28)
+      expect(array_index).to eql([3, 4])
     end
   end
 
   describe '#valid_coord?' do
     it 'returns true when string is correctly formatted as chess coordinate' do
-      chess_coord = 'a9'
+      chess_coord = 'a8'
       is_valid = valid_coord?(chess_coord)
       expect(is_valid).to eql(true)
     end
@@ -47,7 +47,7 @@ describe Coordinates do
     end
 
     it 'returns false when string is correctly formatted as chess coordinate' do
-      chess_coord = 'z2'
+      chess_coord = 'a9'
       is_valid = valid_coord?(chess_coord)
       expect(is_valid).to eql(false)
     end
