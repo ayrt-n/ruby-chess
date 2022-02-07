@@ -6,7 +6,7 @@ class Knight < ChessPiece
     valid_moves = []
 
     knight_moves.each do |move|
-      next_move = pos + move
+      next_move = move(pos, move)
       valid_moves << next_move if move_valid?(board, next_move)
     end
 
@@ -20,6 +20,6 @@ class Knight < ChessPiece
   private
 
   def knight_moves
-    [jumps].flatten
+    jumps
   end
 end
