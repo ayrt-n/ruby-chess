@@ -6,13 +6,13 @@ class Queen < ChessPiece
     valid_moves = []
 
     queen_moves.each do |move|
-      next_move = pos + move
+      next_move = move(pos, move)
 
       while move_valid?(board, next_move)
         valid_moves << next_move
         break if take?(board, next_move)
 
-        next_move += move
+        next_move = move(next_move, move)
       end
     end
 
@@ -26,6 +26,6 @@ class Queen < ChessPiece
   private
 
   def queen_moves
-    [up_and_down, side_to_side, diagonally].flatten
+    up_and_down + side_to_side + diagonally
   end
 end
