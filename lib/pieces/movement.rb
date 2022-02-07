@@ -39,7 +39,7 @@ module Movement
   end
 
   def jump_up_right
-    [-2, 1]]
+    [-2, 1]
   end
 
   def jump_left_up
