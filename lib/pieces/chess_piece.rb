@@ -29,4 +29,10 @@ class ChessPiece
   def take?(board, move)
     board.color(move) != color && !board.empty?(move)
   end
+
+  def move(current_position, move)
+    new_position = []
+    current_position.each_index { |i| new_position[i] = current_position[i] + move[i] }
+    new_position
+  end
 end
