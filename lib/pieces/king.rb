@@ -6,7 +6,7 @@ class King < ChessPiece
     valid_moves = []
 
     king_moves.each do |move|
-      next_move = pos + move
+      next_move = move(pos, move)
       valid_moves << next_move if move_valid?(board, next_move)
     end
 
@@ -20,6 +20,6 @@ class King < ChessPiece
   private
 
   def king_moves
-    [up_and_down, side_to_side, diagonally].flatten
+    up_and_down + side_to_side + diagonally
   end
 end
