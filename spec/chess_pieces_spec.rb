@@ -8,66 +8,79 @@ require './lib/pieces/knight'
 require './lib/pieces/queen'
 require './lib/pieces/king'
 
-describe Pawn do
-  describe '#valid_moves' do
-    context 'when pawn has not moved and cannot take' do
-      it 'returns array of valid moves' do
-        board = double('board')
-        pawn = Pawn.new('W')
-        allow(pawn).to receive(:move_valid?).and_return(true)
-        allow(pawn).to receive(:take?).and_return(false)
-        current_position = 19
-
-        valid_moves = pawn.valid_moves(board, current_position)
-
-        expect(valid_moves).to contain_exactly(3, 11)
-      end
-    end
-
-    context 'when pawn has moved and cannot take' do
-      it 'returns array of valid moves' do
-        board = double('board')
-        pawn = Pawn.new('W')
-        allow(pawn).to receive(:move_valid?).and_return(true)
-        allow(pawn).to receive(:not_moved?).and_return(false)
-        allow(pawn).to receive(:take?).and_return(false)
-        current_position = 19
-
-        valid_moves = pawn.valid_moves(board, current_position)
-
-        expect(valid_moves).to contain_exactly(11)
-      end
-    end
-
-    context 'when pawn has not moved and can take' do
-      it 'returns array of valid moves' do
-        board = double('board')
-        pawn = Pawn.new('W')
-        allow(pawn).to receive(:move_valid?).and_return(true)
-        allow(pawn).to receive(:take?).and_return(true)
-        current_position = 19
-
-        valid_moves = pawn.valid_moves(board, current_position)
-
-        expect(valid_moves).to contain_exactly(3, 11, 10, 12)
-      end
-    end
-
-    context 'when no valid moves' do
-      it 'returns array of valid moves' do
-        board = double('board')
-        pawn = Pawn.new('W')
-        allow(pawn).to receive(:move_valid?).and_return(false)
-        allow(pawn).to receive(:take?).and_return(false)
-        current_position = 19
-
-        valid_moves = pawn.valid_moves(board, current_position)
-
-        expect(valid_moves).to be_empty
-      end
+describe ChessPiece do
+  describe '#move' do
+    it 'adds a move to the current position, returning the new position' do
+      piece = ChessPiece.new(:white)
+      current_position = [1, 1]
+      move = [2, 2]
+      new_position = piece.send(:move, current_position, move)
+      
+      expect(new_position).to eql([3, 3])
     end
   end
 end
+
+# describe Pawn do
+#   describe '#valid_moves' do
+#     context 'when pawn has not moved and cannot take' do
+#       it 'returns array of valid moves' do
+#         board = double('board')
+#         pawn = Pawn.new('W')
+#         allow(pawn).to receive(:move_valid?).and_return(true)
+#         allow(pawn).to receive(:take?).and_return(false)
+#         current_position = 19
+
+#         valid_moves = pawn.valid_moves(board, current_position)
+
+#         expect(valid_moves).to contain_exactly(3, 11)
+#       end
+#     end
+
+#     context 'when pawn has moved and cannot take' do
+#       it 'returns array of valid moves' do
+#         board = double('board')
+#         pawn = Pawn.new('W')
+#         allow(pawn).to receive(:move_valid?).and_return(true)
+#         allow(pawn).to receive(:not_moved?).and_return(false)
+#         allow(pawn).to receive(:take?).and_return(false)
+#         current_position = 19
+
+#         valid_moves = pawn.valid_moves(board, current_position)
+
+#         expect(valid_moves).to contain_exactly(11)
+#       end
+#     end
+
+#     context 'when pawn has not moved and can take' do
+#       it 'returns array of valid moves' do
+#         board = double('board')
+#         pawn = Pawn.new('W')
+#         allow(pawn).to receive(:move_valid?).and_return(true)
+#         allow(pawn).to receive(:take?).and_return(true)
+#         current_position = 19
+
+#         valid_moves = pawn.valid_moves(board, current_position)
+
+#         expect(valid_moves).to contain_exactly(3, 11, 10, 12)
+#       end
+#     end
+
+#     context 'when no valid moves' do
+#       it 'returns array of valid moves' do
+#         board = double('board')
+#         pawn = Pawn.new('W')
+#         allow(pawn).to receive(:move_valid?).and_return(false)
+#         allow(pawn).to receive(:take?).and_return(false)
+#         current_position = 19
+
+#         valid_moves = pawn.valid_moves(board, current_position)
+
+#         expect(valid_moves).to be_empty
+#       end
+#     end
+#   end
+# end
 
 # describe Knight do
 #   describe '#valid_moves' do
