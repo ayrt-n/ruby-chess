@@ -6,13 +6,13 @@ class Rook < ChessPiece
     valid_moves = []
 
     rook_moves.each do |move|
-      next_move = pos + move
+      next_move = move(pos, move)
 
       while move_valid?(board, next_move)
         valid_moves << next_move
         break if take?(board, next_move)
 
-        next_move += move
+        next_move = move(next_move, move)
       end
     end
 
@@ -26,6 +26,6 @@ class Rook < ChessPiece
   private
 
   def rook_moves
-    [up_and_down, side_to_side].flatten
+    up_down_left_right
   end
 end
