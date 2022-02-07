@@ -29,13 +29,13 @@ class ChessBoard
   end
 
   def empty?(position)
-    board[position[0]][position[1]].nil?
+    at_index(position).nil?
   end
 
   def color(position)
     return if empty?(position)
 
-    board[position[0]][position[1]].color
+    at_index(position).color
   end
 
   def at_index(position)
