@@ -77,9 +77,9 @@ class ChessGame
 
   def next_player
     @current_player = if current_player == :white
-                       :black
-                     else
-                       :white
-                     end
+                        :black
+                      else
+                        :white
+                      end
   end
 end
