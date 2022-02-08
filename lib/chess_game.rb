@@ -15,6 +15,13 @@ class ChessGame
     @board = board
   end
 
+  def game
+    loop do
+      player_turn
+      next_player
+    end
+  end
+
   def player_turn
     loop do
       board.pretty_print
@@ -67,7 +74,12 @@ class ChessGame
       puts 'Invalid selection - Please enter valid coordinate'
     end
   end
-end
 
-game = ChessGame.new
-game.player_turn
+  def next_player
+    @current_player = if current_player == :white
+                       :black
+                     else
+                       :white
+                     end
+  end
+end
