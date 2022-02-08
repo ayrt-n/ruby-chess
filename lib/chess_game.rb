@@ -16,10 +16,16 @@ class ChessGame
   end
 
   def player_turn
-    board.pretty_print
-    piece = select_piece
-    move = select_move(piece)
-    board.move(piece, move)
+    loop do
+      board.pretty_print
+      piece = select_piece
+      move = select_move(piece)
+
+      next if move.nil?
+
+      board.move(piece, move)
+      break
+    end
   end
 
   def select_move(piece)
@@ -28,17 +34,26 @@ class ChessGame
     board.pretty_print(selected)
 
     loop do
-      move = chess_to_array_index(prompt_player_move)
-      return move if valid_moves.include?(move)
+      move = prompt_player_move
+      return if move == ''
 
-      puts 'Invalid move - Please select a valid move'
+      if valid_coord?(move)
+        move = chess_to_array_index(move)
+        return move if valid_moves.include?(move)
+      end
+
+      puts 'Invalid selection - Please select a valid move'
     end
   end
 
   def select_piece
     loop do
-      position = chess_to_array_index(prompt_player_move)
-      return position if board.color(position) == current_player
+      position = prompt_player_move
+
+      if valid_coord?(position)
+        position = chess_to_array_index(position)
+        return position if board.color(position) == current_player
+      end
 
       puts 'Invalid selection - Please select one of your pieces'
     end
@@ -47,9 +62,12 @@ class ChessGame
   def prompt_player_move
     loop do
       input = gets.chomp
-      return input if valid_coord?(input)
+      return input if valid_coord?(input) || input == ''
 
-      puts 'Invalid move - Please enter valid coordinate'
+      puts 'Invalid selection - Please enter valid coordinate'
     end
   end
 end
+
+game = ChessGame.new
+game.player_turn
