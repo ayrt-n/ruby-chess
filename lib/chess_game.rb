@@ -8,10 +8,11 @@ class ChessGame
   include Coordinates
 
   attr_reader :board
-  attr_accessor :current_player
+  attr_accessor :current_player, :other_player
 
-  def initialize(current_player = :white, board = ChessBoard.new)
+  def initialize(current_player = :white, other_player = :black, board = ChessBoard.new)
     @current_player = current_player
+    @other_player = other_player
     @board = board
   end
 
@@ -76,10 +77,11 @@ class ChessGame
   end
 
   def next_player
-    @current_player = if current_player == :white
-                        :black
-                      else
-                        :white
-                      end
+    tmp = current_player
+    self.current_player = other_player
+    self.other_player = tmp
   end
 end
+
+game = ChessGame.new
+game.game
