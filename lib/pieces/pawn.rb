@@ -5,11 +5,6 @@ class Pawn < ChessPiece
   attr_reader :direction
   attr_accessor :moved
 
-  def post_init
-    @direction = (color == :white ? 1 : -1)
-    @moved = false
-  end
-
   def valid_moves(board, pos)
     valid_moves = []
 
@@ -28,7 +23,7 @@ class Pawn < ChessPiece
   private
 
   def one_forward(pos)
-    if direction == 1
+    if color == :white
       move(pos, up)
     else
       move(pos, down)
@@ -36,7 +31,7 @@ class Pawn < ChessPiece
   end
 
   def two_forward(pos)
-    if direction == 1
+    if color == :white
       move(one_forward(pos), up)
     else
       move(one_forward(pos), down)
@@ -44,7 +39,7 @@ class Pawn < ChessPiece
   end
 
   def left_diagonal(pos)
-    if direction == 1
+    if color == :white
       move(pos, up_left)
     else
       move(pos, down_left)
@@ -52,7 +47,7 @@ class Pawn < ChessPiece
   end
 
   def right_diagonal(pos)
-    if direction == 1
+    if color == :white
       move(pos, up_right)
     else
       move(pos, down_right)
