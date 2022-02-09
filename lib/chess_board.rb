@@ -44,6 +44,15 @@ class ChessBoard
     board[position[0]][position[1]]
   end
 
+  def king(color)
+    board.each_with_index do |row, row_num|
+      row.each_index do |col_num|
+        position = [row_num, col_num]
+        return position if at_index(position).instance_of?(King) && color(position) == color
+      end
+    end
+  end
+
   def pretty_print(highlight = [])
     puts ''
     board.each_with_index do |row, row_num|

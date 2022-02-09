@@ -49,4 +49,15 @@ describe ChessBoard do
       expect(board_element).to eql(1)
     end
   end
+
+  describe '#king' do
+    it 'returns the position of the king of a given color' do
+      new_board = ChessBoard.new
+      black_king = new_board.king(:black)
+      white_king = new_board.king(:white)
+
+      expect(black_king).to eql([0, 3])
+      expect(white_king).to eql([7, 3])
+    end
+  end
 end
