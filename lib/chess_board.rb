@@ -56,10 +56,12 @@ class ChessBoard
       row.each_index do |col_num|
         position = [row_num, col_num]
         if color(position) == color
-          moves + check_valid_moves(position)
+          moves = moves + check_valid_moves(position)
         end
       end
     end
+
+    moves
   end
 
   def king(color)
