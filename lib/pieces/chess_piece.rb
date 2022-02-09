@@ -11,9 +11,11 @@ class ChessPiece
   include Movement
 
   attr_reader :color
+  attr_accessor :moved
 
-  def initialize(color)
+  def initialize(color, moved = false)
     @color = color
+    @moved = moved
 
     post_init
   end
