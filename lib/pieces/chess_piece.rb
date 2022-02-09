@@ -16,11 +16,7 @@ class ChessPiece
   def initialize(color, moved = false)
     @color = color
     @moved = moved
-
-    post_init
   end
-
-  def post_init; end
 
   private
 
