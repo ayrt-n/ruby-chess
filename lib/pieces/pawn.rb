@@ -20,7 +20,7 @@ class Pawn < ChessPiece
 
     valid_moves
   end
-  
+
   def to_s
     '♟︎'.colorize(color)
   end
