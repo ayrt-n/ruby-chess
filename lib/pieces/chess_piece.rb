@@ -37,4 +37,8 @@ class ChessPiece
     current_position.each_index { |i| new_position[i] = current_position[i] + move[i] }
     new_position
   end
+
+  def not_moved?
+    !moved
+  end
 end
