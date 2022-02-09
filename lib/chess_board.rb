@@ -30,6 +30,10 @@ class ChessBoard
       position[1] >= 0 && position[1] < board[0].size
   end
 
+  def at_index(position)
+    board[position[0]][position[1]]
+  end
+
   def empty?(position)
     at_index(position).nil?
   end
@@ -40,8 +44,22 @@ class ChessBoard
     at_index(position).color
   end
 
-  def at_index(position)
-    board[position[0]][position[1]]
+  def check_valid_moves(position)
+    return if empty?(position)
+
+    at_index(position).valid_moves(self, position)
+  end
+
+  def check_all_valid_moves(color)
+    moves = []
+    board.each_with_index do |row, row_num|
+      row.each_index do |col_num|
+        position = [row_num, col_num]
+        if color(position) == color
+          moves + check_valid_moves(position)
+        end
+      end
+    end
   end
 
   def king(color)
