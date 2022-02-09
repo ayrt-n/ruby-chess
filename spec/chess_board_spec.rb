@@ -5,11 +5,13 @@ require './lib/chess_board'
 describe ChessBoard do
   describe '#move' do
     it 'moves object from one array location to another' do
-      example_board = ChessBoard.new([[nil, 1, nil], [nil, nil, nil]])
+      piece = double('piece')
+      allow(piece).to receive(:moved=)
+      example_board = ChessBoard.new([[nil, piece, nil], [nil, nil, nil]])
       starting = [0, 1]
       ending = [1, 1]
       example_board.move(starting, ending)
-      expect(example_board.board).to eql([[nil, nil, nil], [nil, 1, nil]])
+      expect(example_board.board).to eql([[nil, nil, nil], [nil, piece, nil]])
     end
   end
 
