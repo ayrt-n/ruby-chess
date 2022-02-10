@@ -40,7 +40,7 @@ class ChessGame
   end
 
   def all_valid_moves(player)
-    potential_moves = board.check_all_valid_moves(player)
+    potential_moves = all_potential_moves(player)
     valid_moves = Hash.new([])
 
     potential_moves.each do |piece, moves|
@@ -50,19 +50,8 @@ class ChessGame
     valid_moves
   end
 
-  def valid_moves(piece)
-    potential_moves = piece_potential_moves(piece)
-    valid_moves = []
-
-    potential_moves.each do |move|
-      valid_moves += [move] unless move_self_check?(piece, move)
-    end
-
-    valid_moves
-  end
-
-  def piece_potential_moves(piece)
-    board.check_valid_moves(piece)
+  def all_potential_moves(player)
+    board.check_all_valid_moves(player)
   end
 
   def move_self_check?(piece, move)
