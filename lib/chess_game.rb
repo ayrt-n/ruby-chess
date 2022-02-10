@@ -53,7 +53,7 @@ class ChessGame
   def move_self_check?(piece, move)
     tmp = board.board.map(&:dup)
     board.move(piece, move)
-    self_check = checked?
+    self_check = checked?(current_player)
     board.board = tmp
     self_check
   end
@@ -113,7 +113,7 @@ class ChessGame
   end
 
   def other_player(player)
-    player == current_player ? other_player : current_player
+    player == current_player ? not_current_player : current_player
   end
 end
 
