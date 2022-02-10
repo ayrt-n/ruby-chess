@@ -36,8 +36,15 @@ class ChessGame
     end
   end
 
+  def checked?
+    king_pos = board.king(current_player)
+    enemy_moves = board.check_all_valid_moves(other_player)
+
+    enemy_moves.include?(king_pos)
+  end
+
   def select_move(piece)
-    valid_moves = board.at_index(piece).valid_moves(board, piece)
+    valid_moves = board.check_valid_moves(piece)
     selected = [piece] + valid_moves
     board.pretty_print(selected)
 
