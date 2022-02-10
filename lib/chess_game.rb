@@ -7,8 +7,7 @@ require './lib/coordinates'
 class ChessGame
   include Coordinates
 
-  attr_reader :board
-  attr_accessor :current_player, :other_player
+  attr_accessor :current_player, :other_player, :board
 
   def initialize(current_player = :white, other_player = :black, board = ChessBoard.new)
     @current_player = current_player
@@ -36,6 +35,30 @@ class ChessGame
     end
   end
 
+  def valid_moves(piece)
+    potential_moves = piece_potential_moves(piece)
+    valid_moves = []
+
+    potential_moves.each do |move|
+      valid_moves += [move] unless move_self_check?(piece, move)
+    end
+
+    valid_moves
+  end
+
+  def piece_potential_moves(piece)
+    board.check_valid_moves(piece)
+  end
+
+  def move_self_check?(piece, move)
+    tmp = board.board.map(&:dup)
+    board.move(piece, move)
+    self_check = checked?
+    board.board = tmp
+
+    self_check
+  end
+
   def checked?
     king_pos = board.king(current_player)
     enemy_moves = board.check_all_valid_moves(other_player)
@@ -44,7 +67,7 @@ class ChessGame
   end
 
   def select_move(piece)
-    valid_moves = board.check_valid_moves(piece)
+    valid_moves = valid_moves(piece)
     selected = [piece] + valid_moves
     board.pretty_print(selected)
 
