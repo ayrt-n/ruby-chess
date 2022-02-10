@@ -51,11 +51,11 @@ class ChessBoard
   end
 
   def check_all_valid_moves(color)
-    moves = []
+    moves = {}
     board.each_with_index do |row, row_num|
       row.each_index do |col_num|
         position = [row_num, col_num]
-        moves += check_valid_moves(position) if color(position) == color
+        moves[position] = check_valid_moves(position) if color(position) == color
       end
     end
 
