@@ -35,6 +35,19 @@ class ChessGame
     end
   end
 
+  def checkmate?(player)
+    # return false unless checked?(player)
+    
+    player_pieces = board.check_all_valid_moves(player).keys
+    player_moves = []
+    
+    player_pieces.each do |piece|
+      player_moves += valid_moves(piece)
+    end
+
+    player_moves.flatten.empty?
+  end
+
   def valid_moves(piece)
     potential_moves = piece_potential_moves(piece)
     valid_moves = []
