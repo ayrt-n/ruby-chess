@@ -55,9 +55,7 @@ class ChessBoard
     board.each_with_index do |row, row_num|
       row.each_index do |col_num|
         position = [row_num, col_num]
-        if color(position) == color
-          moves = moves + check_valid_moves(position)
-        end
+        moves += check_valid_moves(position) if color(position) == color
       end
     end
 
