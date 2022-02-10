@@ -55,13 +55,12 @@ class ChessGame
     board.move(piece, move)
     self_check = checked?
     board.board = tmp
-
     self_check
   end
 
   def checked?
     king_pos = board.king(current_player)
-    enemy_moves = board.check_all_valid_moves(other_player)
+    enemy_moves = board.check_all_valid_moves(other_player).values.flatten(1)
 
     enemy_moves.include?(king_pos)
   end
