@@ -59,8 +59,9 @@ class ChessGame
   end
 
   def checked?(player)
-    king_pos = board.king(current_player)
-    enemy_moves = board.check_all_valid_moves(not_current_player).values.flatten(1)
+    king_pos = board.king(player)
+    enemy = other_player(player)
+    enemy_moves = board.check_all_valid_moves(enemy).values.flatten(1)
 
     enemy_moves.include?(king_pos)
   end
