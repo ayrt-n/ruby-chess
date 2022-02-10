@@ -7,18 +7,18 @@ require './lib/coordinates'
 class ChessGame
   include Coordinates
 
-  attr_accessor :current_player, :other_player, :board
+  attr_accessor :current_player, :not_current_player, :board
 
-  def initialize(current_player = :white, other_player = :black, board = ChessBoard.new)
+  def initialize(current_player = :white, not_current_player = :black, board = ChessBoard.new)
     @current_player = current_player
-    @other_player = other_player
+    @not_current_player = not_current_player
     @board = board
   end
 
   def game
     loop do
       player_turn
-      next_player
+      switch_current_player
     end
   end
 
@@ -58,9 +58,9 @@ class ChessGame
     self_check
   end
 
-  def checked?
+  def checked?(player)
     king_pos = board.king(current_player)
-    enemy_moves = board.check_all_valid_moves(other_player).values.flatten(1)
+    enemy_moves = board.check_all_valid_moves(not_current_player).values.flatten(1)
 
     enemy_moves.include?(king_pos)
   end
@@ -105,10 +105,14 @@ class ChessGame
     end
   end
 
-  def next_player
+  def switch_current_player
     tmp = current_player
-    self.current_player = other_player
-    self.other_player = tmp
+    self.current_player = not_current_player
+    self.not_current_player = tmp
+  end
+
+  def other_player(player)
+    player == current_player ? other_player : current_player
   end
 end
 
