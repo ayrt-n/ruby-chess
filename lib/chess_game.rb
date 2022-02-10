@@ -35,17 +35,19 @@ class ChessGame
     end
   end
 
-  def checkmate?(player)
-    # return false unless checked?(player)
-    
-    player_pieces = board.check_all_valid_moves(player).keys
-    player_moves = []
-    
-    player_pieces.each do |piece|
-      player_moves += valid_moves(piece)
+  def checkmate?(player_moves)
+    player_moves.values.flatten.empty?
+  end
+
+  def all_valid_moves(player)
+    potential_moves = board.check_all_valid_moves(player)
+    valid_moves = Hash.new([])
+
+    potential_moves.each do |piece, moves|
+      valid_moves[piece] = moves.reject { |move| move_self_check?(piece, move) }
     end
 
-    player_moves.flatten.empty?
+    valid_moves
   end
 
   def valid_moves(piece)
@@ -64,8 +66,8 @@ class ChessGame
   end
 
   def move_self_check?(piece, move)
-    tmp = board.board.map(&:dup)
-    board.move(piece, move)
+    tmp = board.board.dup.map(&:dup)
+    board.fake_move(piece, move)
     self_check = checked?(current_player)
     board.board = tmp
     self_check
