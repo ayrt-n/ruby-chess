@@ -42,18 +42,18 @@ class ChessBoard
     at_index(position).color
   end
 
-  def check_valid_moves(position)
+  def return_potential_moves(position)
     return if empty?(position)
 
     at_index(position).valid_moves(self, position)
   end
 
-  def check_all_valid_moves(color)
+  def return_all_potential_moves(color)
     moves = {}
     board.each_with_index do |row, row_num|
       row.each_index do |col_num|
         position = [row_num, col_num]
-        moves[position] = check_valid_moves(position) if color(position) == color
+        moves[position] = return_potential_moves(position) if color(position) == color
       end
     end
 

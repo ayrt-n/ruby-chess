@@ -56,7 +56,7 @@ class ChessGame
   end
 
   def all_potential_moves(player)
-    board.check_all_valid_moves(player)
+    board.return_all_potential_moves(player)
   end
 
   def move_self_check?(piece, move)
@@ -70,7 +70,7 @@ class ChessGame
   def checked?(player)
     king_pos = board.king(player)
     enemy = other_player(player)
-    enemy_moves = board.check_all_valid_moves(enemy).values.flatten(1)
+    enemy_moves = board.return_all_potential_moves(enemy).values.flatten(1)
 
     enemy_moves.include?(king_pos)
   end
