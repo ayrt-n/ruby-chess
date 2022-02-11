@@ -34,6 +34,7 @@ class ChessGame
       next if move.nil?
 
       board.move(piece, move)
+      board.at_index(move).moved = true
       break
     end
   end
@@ -59,7 +60,7 @@ class ChessGame
 
   def move_self_check?(piece, move)
     tmp = board.board.dup.map(&:dup)
-    board.fake_move(piece, move)
+    board.move(piece, move)
     self_check = checked?(current_player)
     board.board = tmp
     self_check
