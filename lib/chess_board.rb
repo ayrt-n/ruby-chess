@@ -60,6 +60,11 @@ class ChessBoard
     moves
   end
 
+  def positions_under_attack_by(color)
+    all_potential_moves = return_all_potential_moves(color)
+    all_potential_moves.values.flatten(1)
+  end
+
   def king(color)
     board.each_with_index do |row, row_num|
       row.each_index do |col_num|
