@@ -70,7 +70,7 @@ class ChessGame
   def checked?(player)
     king_pos = board.king(player)
     enemy = other_player(player)
-    enemy_moves = board.return_all_potential_moves(enemy).values.flatten(1)
+    enemy_moves = board.positions_under_attack_by(enemy)
 
     enemy_moves.include?(king_pos)
   end
