@@ -14,7 +14,7 @@ class King < ChessPiece
   end
 
   def to_s
-    '♛'.colorize(color)
+    '♚'.colorize(color)
   end
 
   private
