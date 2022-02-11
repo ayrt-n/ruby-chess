@@ -128,7 +128,7 @@ class ChessBoard
 
   # Creates default row of chessmen of a given color
   def create_chessmen(color)
-    [Rook.new(color), Knight.new(color), Bishop.new(color), King.new(color), Queen.new(color), Bishop.new(color), Knight.new(color), Rook.new(color)]
+    [Rook.new(color), Knight.new(color), Bishop.new(color), Queen.new(color), King.new(color), Bishop.new(color), Knight.new(color), Rook.new(color)]
   end
 
   # Creates default row of pawns of a given color
