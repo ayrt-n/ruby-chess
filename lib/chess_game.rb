@@ -17,16 +17,19 @@ class ChessGame
 
   def game
     loop do
-      player_turn
+      valid_moves = all_valid_moves(current_player)
+      break if checkmate?(valid_moves)
+
+      puts 'Check! Your king is under attack, protect him!' if checked?(current_player)
+
+      player_turn(valid_moves)
       switch_current_player
     end
+    print_board
+    puts "Checkmate! #{not_current_player.capitalize} wins!"
   end
 
-  def player_turn
-    valid_moves = all_valid_moves(current_player)
-    puts "Check!" if checked?(current_player)
-    puts "Checkmate!" if checkmate?(valid_moves)
-
+  def player_turn(valid_moves)
     loop do
       print_board
       piece = select_piece
