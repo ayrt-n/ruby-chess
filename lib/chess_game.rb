@@ -25,8 +25,11 @@ class ChessGame
   def player_turn
     loop do
       board.pretty_print
+      valid_moves = all_valid_moves(current_player)
+
       piece = select_piece
-      move = select_move(piece)
+      print_board(piece, valid_moves[piece])
+      move = select_move(valid_moves[piece])
 
       next if move.nil?
 
@@ -70,11 +73,7 @@ class ChessGame
     enemy_moves.include?(king_pos)
   end
 
-  def select_move(piece)
-    valid_moves = valid_moves(piece)
-    selected = [piece] + valid_moves
-    board.pretty_print(selected)
-
+  def select_move(valid_moves)
     loop do
       move = prompt_player_move
       return if move == ''
@@ -99,6 +98,11 @@ class ChessGame
 
       puts 'Invalid selection - Please select one of your pieces'
     end
+  end
+
+  def print_board(piece = [], moves = [])
+    highlight = [piece] + moves
+    board.pretty_print(highlight)
   end
 
   def prompt_player_move
