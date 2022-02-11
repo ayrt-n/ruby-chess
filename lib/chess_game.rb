@@ -23,18 +23,19 @@ class ChessGame
   end
 
   def player_turn
-    loop do
-      board.pretty_print
-      valid_moves = all_valid_moves(current_player)
+    valid_moves = all_valid_moves(current_player)
+    puts "Check!" if checked?(current_player)
+    puts "Checkmate!" if checkmate?(valid_moves)
 
+    loop do
+      print_board
       piece = select_piece
       print_board(piece, valid_moves[piece])
       move = select_move(valid_moves[piece])
 
       next if move.nil?
 
-      board.move(piece, move)
-      board.at_index(move).moved = true
+      move_piece(piece, move)
       break
     end
   end
@@ -99,6 +100,11 @@ class ChessGame
 
       puts 'Invalid selection - Please select one of your pieces'
     end
+  end
+
+  def move_piece(piece, move)
+    board.move(piece, move)
+    board.at_index(move).moved = true
   end
 
   def print_board(piece = [], moves = [])
