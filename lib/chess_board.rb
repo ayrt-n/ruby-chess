@@ -59,7 +59,7 @@ class ChessBoard
     at_index(position).valid_moves(self, position)
   end
 
-  # Returns a hash of all { piece: [moves] } combinations for a given color/player
+  # Returns a hash of all { [piece_position]: [moves] } combinations for a given color/player
   def return_all_potential_moves(color)
     moves = {}
     board.each_with_index do |row, row_num|
