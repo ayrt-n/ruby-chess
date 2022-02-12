@@ -20,7 +20,7 @@ class Savestate
     File.open("#{dirname}/#{filename}.yaml", 'w') { |f| f.write(to_yaml(raw_obj)) }
   end
 
-  def to_yaml(raw_obj)
+  def to_yaml(obj)
     YAML.dump(obj)
   end
 
