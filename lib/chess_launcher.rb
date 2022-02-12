@@ -16,7 +16,7 @@ class ChessLauncher
              launch_saved_game
            end
 
-    game.game
+    game.play
   end
 
   private
