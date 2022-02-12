@@ -1,0 +1,2 @@
+# Ignore all savedstates (.yaml)
+savestates/*.yaml
