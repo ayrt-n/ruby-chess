@@ -23,7 +23,7 @@ class ChessGame
 
       puts 'Check! Your king is under attack, protect him!' if checked?(current_player)
 
-      player_turn(valid_moves)
+      break if player_turn(valid_moves) == 'sq'
       switch_current_player
     end
     print_board
@@ -36,7 +36,7 @@ class ChessGame
       piece = select_piece
       if piece == 'sq'
         save_game
-        next
+        return 'sq'
       end
       puts 'made it here'
       print_board(piece, valid_moves[piece])
