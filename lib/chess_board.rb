@@ -110,6 +110,7 @@ class ChessBoard
       puts ''
     end
     puts '    a  b  c  d  e  f  g  h '
+    puts ''
   end
 
   private
