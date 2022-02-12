@@ -16,40 +16,49 @@ class ChessGame
     @board = board
   end
 
+  def play
+    outcome_of_game = game
+    case outcome_of_game
+    when :checkmate
+      puts "Checkmate! #{not_current_player.capitalize} wins!"
+    else
+      save_game
+      puts 'Game saved!'
+    end
+  end
+
   def game
     loop do
+      return :checkmate if checkmate?(current_player)
+
       valid_moves = all_valid_moves(current_player)
-      break if checkmate?(valid_moves)
+      puts "Check! The #{current_player} king is under attack, protect him!" if checked?(current_player)
 
-      puts 'Check! Your king is under attack, protect him!' if checked?(current_player)
+      player_move = player_turn(valid_moves)
+      return player_move if player_move == :sq
 
-      break if player_turn(valid_moves) == 'sq'
       switch_current_player
     end
-    print_board
-    puts "Checkmate! #{not_current_player.capitalize} wins!"
   end
 
   def player_turn(valid_moves)
     loop do
       print_board
       piece = select_piece
-      if piece == 'sq'
-        save_game
-        return 'sq'
-      end
-      puts 'made it here'
+      return :sq if piece == 'sq'
+
       print_board(piece, valid_moves[piece])
       move = select_move(valid_moves[piece])
 
       next if move.nil?
 
       move_piece(piece, move)
-      break
+      return :moved
     end
   end
 
-  def checkmate?(player_moves)
+  def checkmate?(color)
+    player_moves = all_valid_moves(color)
     player_moves.values.flatten.empty?
   end
 
