@@ -15,7 +15,8 @@ class Savestate
   end
 
   def create_savestate(raw_obj)
-    filename = Time.now.strftime("%m-%d_%H-%M-%S")
+    print 'Save as: '
+    filename = gets.chomp
     mkdir
     File.open("#{dirname}/#{filename}.yaml", 'w') { |f| f.write(to_yaml(raw_obj)) }
   end
