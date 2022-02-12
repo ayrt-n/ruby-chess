@@ -86,6 +86,7 @@ class ChessGame
 
   def select_move(valid_moves)
     loop do
+      print "#{current_player.capitalize} select move (or hit <ENTER> to cancel): "
       move = prompt_player_move
       return if move == ''
 
