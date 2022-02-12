@@ -132,5 +132,5 @@ class ChessGame
   end
 end
 
-game = ChessGame.new
-game.game
+# game = ChessGame.new
+# game.game
