@@ -9,19 +9,17 @@ class ChessLauncher
     welcome_message
     game_type = prompt_player_input(%w[1 2])
 
-    if game_type == '1'
-      launch_new_game
-    else
-      puts 'TBD'
+    game = if game_type == '1'
+             launch_new_game
     end
   end
 
   private
 
   def launch_new_game
-    ChessGame.new.game
+    ChessGame.new
   end
-
+  
   def prompt_player_input(acceptable_values)
     loop do
       input = gets.chomp
