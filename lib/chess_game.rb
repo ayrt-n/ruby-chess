@@ -2,6 +2,7 @@
 
 require './lib/chess_board'
 require './lib/coordinates'
+require './lib/savestate'
 
 # Class containing game flow logic
 class ChessGame
@@ -33,6 +34,11 @@ class ChessGame
     loop do
       print_board
       piece = select_piece
+      if piece == 'sq'
+        save_game
+        next
+      end
+      puts 'made it here'
       print_board(piece, valid_moves[piece])
       move = select_move(valid_moves[piece])
 
@@ -94,11 +100,14 @@ class ChessGame
 
   def select_piece
     loop do
-      position = prompt_player_move
+      print "#{current_player.capitalize} select piece (or type 'sq' to save and quit): "
+      position = gets.chomp
 
       if valid_coord?(position)
         position = chess_to_array_index(position)
         return position if board.color(position) == current_player
+      elsif position == 'sq'
+        return position
       end
 
       puts 'Invalid selection - Please select one of your pieces'
@@ -132,6 +141,11 @@ class ChessGame
 
   def other_player(player)
     player == current_player ? not_current_player : current_player
+  end
+
+  def save_game
+    savestate = Savestate.new('savestates')
+    savestate.create_savestate(self)
   end
 end
 
