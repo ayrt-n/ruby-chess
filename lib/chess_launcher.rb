@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+<<<<<<< HEAD
 require './lib/savestate'
 require './lib/chess_game'
 
@@ -42,3 +43,11 @@ class ChessLauncher
 end
 
 ChessLauncher.new.play_game
+=======
+require './lib/chess_game'
+
+# Controller for starting/loading/replaying games of chess
+class ChessLauncher
+
+end
+>>>>>>> game_board_functionality
