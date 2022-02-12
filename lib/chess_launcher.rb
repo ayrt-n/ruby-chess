@@ -13,10 +13,10 @@ class ChessLauncher
     game = if game_type == 1
              launch_new_game
            else
-             select_saved_game
+             launch_saved_game
            end
 
-           game.game
+    game.game
   end
 
   private
@@ -25,14 +25,23 @@ class ChessLauncher
     ChessGame.new
   end
 
-  def select_saved_game
-    puts "\nSelect one of the saved games to play:"
+  def launch_saved_game
     savestates = Dir.glob("savestates/*.{yaml, YAML}")
-    print_saved_games(savestates)
-    file_idx = prompt_player_input([*1..savestates.size])
-    file = File.open(savestates[file_idx], 'r').read
-    p file
-    load_game(file)
+    if savestates.empty?
+      puts "\nNo saved games found - launching new game"
+      launch_new_game
+    else
+      puts "\nSelect one of the saved games to play:"
+      print_saved_games(savestates)
+      saved_game = select_saved_game(savestates)
+      load_game(saved_game)
+    end
+  end
+
+  def select_saved_game(savestates)
+    acceptable_values = [*1..savestates.size]
+    file_idx = prompt_player_input(acceptable_values) - 1
+    File.open(savestates[file_idx], 'r').read
   end
 
   def print_saved_games(savestates)
@@ -44,11 +53,11 @@ class ChessLauncher
   def load_game(string)
     YAML.load(string)
   end
-  
+
   def prompt_player_input(acceptable_values)
     loop do
-      input = gets.chomp
-      return input.to_i if acceptable_values.include?(input.to_i)
+      input = gets.chomp.to_i
+      return input if acceptable_values.include?(input)
 
       puts 'Invalid selection - Please select one of the listed options'
     end
