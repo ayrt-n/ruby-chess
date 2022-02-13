@@ -18,18 +18,18 @@ class ChessPiece
     @moved = moved
   end
 
-  private
-
-  def promotion?
+  def promotion?(board, pos)
     false
   end
+
+  private
 
   def move_valid?(board, move)
     board.in_bounds?(move) && (board.color(move) != color || board.empty?(move))
   end
 
   def take?(board, move)
-    board.color(move) != color && !board.empty?(move)
+    board.in_bounds?(move) && board.color(move) != color && !board.empty?(move)
   end
 
   def move(current_position, move)
