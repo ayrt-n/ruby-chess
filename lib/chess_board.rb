@@ -22,6 +22,18 @@ class ChessBoard
   def move(starting, ending)
     board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
     board[starting[0]][starting[1]] = nil
+
+    promote(ending) if promotion?(ending)
+  end
+
+  # Replace the piece at a given position with a Queen
+  def promote(position)
+    piece_color = color(position)
+    board[position[0]][position[1]] = Queen.new(piece_color)
+  end
+
+  def promotion?(position)
+    at_index(position).promotion?(self, position)
   end
 
   # Checks whether a position is within boundaries of board
