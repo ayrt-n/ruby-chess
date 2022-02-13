@@ -22,20 +22,20 @@ class Pawn < ChessPiece
 
   private
 
-  def one_forward(pos)
+  def forward
     if color == :white
-      move(pos, up)
+      up
     else
-      move(pos, down)
+      down
     end
   end
 
+  def one_forward(pos)
+    move(pos, forward)
+  end
+
   def two_forward(pos)
-    if color == :white
-      move(one_forward(pos), up)
-    else
-      move(one_forward(pos), down)
-    end
+    move(one_forward(pos), forward)
   end
 
   def left_diagonal(pos)
