@@ -21,9 +21,11 @@ class ChessGame
     case outcome_of_game
     when :checkmate
       puts "Checkmate! #{not_current_player.capitalize} wins!"
-    else
+    when :sq
       save_game
       puts 'Game saved!'
+    else
+      puts "#{current_player.capitalize} has had enough! #{not_current_player.capitalize} wins!"
     end
   end
 
@@ -35,7 +37,7 @@ class ChessGame
       puts "Check! The #{current_player} king is under attack, protect him!" if checked?(current_player)
 
       player_move = player_turn(valid_moves)
-      return player_move if player_move == :sq
+      return player_move if %I[sq surrender].include?(player_move)
 
       switch_current_player
     end
@@ -45,7 +47,7 @@ class ChessGame
     loop do
       print_board
       piece = select_piece
-      return :sq if piece == 'sq'
+      return piece.to_sym if piece == 'sq' || piece == 'surrender'
 
       print_board(piece, valid_moves[piece])
       move = select_move(valid_moves[piece])
@@ -110,13 +112,13 @@ class ChessGame
 
   def select_piece
     loop do
-      print "#{current_player.capitalize} select piece (or type 'sq' to save and quit): "
+      print "#{current_player.capitalize} select piece (or type 'sq' to save and quit or 'surrender' to surrender): "
       position = gets.chomp
 
       if valid_coord?(position)
         position = chess_to_array_index(position)
         return position if board.color(position) == current_player
-      elsif position == 'sq'
+      elsif position == 'sq' || position = 'surrender'
         return position
       end
 
