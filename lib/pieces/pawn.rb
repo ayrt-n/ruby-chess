@@ -59,6 +59,6 @@ class Pawn < ChessPiece
   end
 
   def move_valid?(board, move)
-    board.empty?(move) && board.in_bounds?(move)
+    board.in_bounds?(move) && board.empty?(move)
   end
 end
