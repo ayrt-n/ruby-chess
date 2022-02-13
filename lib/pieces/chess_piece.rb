@@ -20,6 +20,10 @@ class ChessPiece
 
   private
 
+  def promotion?
+    false
+  end
+
   def move_valid?(board, move)
     board.in_bounds?(move) && (board.color(move) != color || board.empty?(move))
   end

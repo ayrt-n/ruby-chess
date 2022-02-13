@@ -20,6 +20,10 @@ class Pawn < ChessPiece
     '♟︎'.colorize(color)
   end
 
+  def promotion?(board, pos)
+    !board.in_bounds?(one_forward(pos))
+  end
+
   private
 
   def forward

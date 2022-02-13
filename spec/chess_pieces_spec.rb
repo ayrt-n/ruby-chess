@@ -279,4 +279,24 @@ describe Pawn do
       end
     end
   end
+
+  describe '#promotion?' do
+    it 'returns true when pawn is at edge of board' do
+      board = double('board')
+      pawn = Pawn.new(:white)
+      allow(board).to receive(:in_bounds?).and_return(false)
+      current_position = [8, 2]
+
+      expect(pawn.promotion?(board, current_position)).to eql(true)
+    end
+
+    it 'returns false when pawn is not at edge of board' do
+      board = double('board')
+      pawn = Pawn.new(:black)
+      allow(board).to receive(:in_bounds?).and_return(true)
+      current_position = [8, 2]
+
+      expect(pawn.promotion?(board, current_position)).to eql(false) 
+    end
+  end
 end
