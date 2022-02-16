@@ -31,10 +31,10 @@ class ChessGame
 
   def game
     loop do
-      return :checkmate if checkmate?(current_player)
+      return :checkmate if board.checkmate?(current_player)
 
-      valid_moves = all_valid_moves(current_player)
-      puts "Check! The #{current_player} king is under attack, protect him!" if checked?(current_player)
+      valid_moves = board.return_all_valid_moves(current_player)
+      puts "Check! The #{current_player} king is under attack, protect him!" if board.checked?(current_player)
 
       player_move = player_turn(valid_moves)
       return player_move if %I[sq surrender].include?(player_move)
@@ -54,45 +54,9 @@ class ChessGame
 
       next if move.nil?
 
-      move_piece(piece, move)
+      board.move(piece, move)
       return :moved
     end
-  end
-
-  def checkmate?(color)
-    player_moves = all_valid_moves(color)
-    player_moves.values.flatten.empty?
-  end
-
-  def all_valid_moves(player)
-    potential_moves = all_potential_moves(player)
-    valid_moves = Hash.new([])
-
-    potential_moves.each do |piece, moves|
-      valid_moves[piece] = moves.reject { |move| move_self_check?(piece, move) }
-    end
-
-    valid_moves
-  end
-
-  def all_potential_moves(player)
-    board.return_all_potential_moves(player)
-  end
-
-  def move_self_check?(piece, move)
-    tmp = board.board.dup.map(&:dup)
-    board.move(piece, move)
-    self_check = checked?(current_player)
-    board.board = tmp
-    self_check
-  end
-
-  def checked?(player)
-    king_pos = board.king(player)
-    enemy = other_player(player)
-    enemy_moves = board.positions_under_attack_by(enemy)
-
-    enemy_moves.include?(king_pos)
   end
 
   def select_move(valid_moves)
