@@ -85,6 +85,18 @@ class ChessBoard
     moves
   end
 
+  # Returns a hash of all valid { [piece_position]: [moves] } combinations for a given color/player
+  def return_all_valid_moves(color)
+    potential_moves = return_all_potential_moves(color)
+    valid_moves = Hash.new([])
+
+    potential_moves.each do |piece, moves|
+      valid_moves[piece] = moves.reject { |move| invalid_move?(piece, move) }
+    end
+
+    valid_moves
+  end
+
   # Returns an array of all positions under attack by a given color/player
   def positions_under_attack_by(color)
     all_potential_moves = return_all_potential_moves(color)
@@ -110,6 +122,7 @@ class ChessBoard
     enemy_moves.include?(king_pos)
   end
 
+  # Checks whether move puts player making the move into check, making it invalid
   def invalid_move?(starting, ending)
     tmp = board.dup.map(&:dup)
 
@@ -176,3 +189,7 @@ class ChessBoard
     [nil, nil, nil, nil, nil, nil, nil, nil]
   end
 end
+
+
+cb = ChessBoard.new
+p cb.return_all_valid_moves(:white)
