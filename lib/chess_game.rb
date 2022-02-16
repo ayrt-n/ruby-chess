@@ -82,7 +82,7 @@ class ChessGame
       if valid_coord?(position)
         position = chess_to_array_index(position)
         return position if board.color(position) == current_player
-      elsif position == 'sq' || position = 'surrender'
+      elsif position == 'sq' || position == 'surrender'
         return position
       end
 
