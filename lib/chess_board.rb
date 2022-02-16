@@ -23,6 +23,7 @@ class ChessBoard
     board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
     board[starting[0]][starting[1]] = nil
 
+    at_index(ending).moved = true
     promote(ending) if promotion?(ending)
   end
 
@@ -107,6 +108,18 @@ class ChessBoard
     enemy_moves = positions_under_attack_by(enemy_color)
 
     enemy_moves.include?(king_pos)
+  end
+
+  def invalid_move?(starting, ending)
+    tmp = board.dup.map(&:dup)
+
+    board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
+    board[starting[0]][starting[1]] = nil
+    pretty_print
+    self_check = checked?(color(ending))
+
+    @board = tmp
+    self_check
   end
 
   # Prints contents of the board, can highlight specific squares if position provided
