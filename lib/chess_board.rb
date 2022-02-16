@@ -100,6 +100,15 @@ class ChessBoard
     end
   end
 
+  # Returns true if given color/player king is under attack by enemy
+  def checked?(color)
+    enemy_color = color == :white ? :black : :white
+    king_pos = king(color)
+    enemy_moves = positions_under_attack_by(enemy_color)
+
+    enemy_moves.include?(king_pos)
+  end
+
   # Prints contents of the board, can highlight specific squares if position provided
   def pretty_print(highlight = [])
     puts ''
