@@ -122,13 +122,17 @@ class ChessBoard
     enemy_moves.include?(king_pos)
   end
 
+  def checkmate?(color)
+    valid_moves = return_all_valid_moves(color)
+    valid_moves.values.flatten.empty?
+  end
+
   # Checks whether move puts player making the move into check, making it invalid
   def invalid_move?(starting, ending)
     tmp = board.dup.map(&:dup)
 
     board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
     board[starting[0]][starting[1]] = nil
-    pretty_print
     self_check = checked?(color(ending))
 
     @board = tmp
@@ -189,7 +193,3 @@ class ChessBoard
     [nil, nil, nil, nil, nil, nil, nil, nil]
   end
 end
-
-
-cb = ChessBoard.new
-p cb.return_all_valid_moves(:white)
