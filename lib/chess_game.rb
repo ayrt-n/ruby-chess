@@ -115,10 +115,6 @@ class ChessGame
     self.not_current_player = tmp
   end
 
-  def other_player(player)
-    player == current_player ? not_current_player : current_player
-  end
-
   def save_game
     savestate = Savestate.new('savestates')
     savestate.create_savestate(self)
