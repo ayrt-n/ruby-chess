@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require './lib/pieces/chess_piece'
+
 # Class containing pawn play logic
 class Pawn < ChessPiece
   attr_reader :direction

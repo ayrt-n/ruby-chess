@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require './lib/pieces/chess_piece'
+
 # Class containing Bishop play logic
 class Bishop < ChessPiece
   def valid_moves(board, pos)
