@@ -37,7 +37,7 @@ class ChessGame
       puts "Check! The #{current_player} king is under attack, protect him!" if board.checked?(current_player)
 
       player_move = player_turn(valid_moves)
-      return player_move if %I[sq surrender].include?(player_move)
+      return player_move.to_sym if %I[sq surrender].include?(player_move)
 
       switch_current_player
     end
@@ -47,7 +47,7 @@ class ChessGame
     loop do
       print_board
       piece = select_piece
-      return piece.to_sym if piece == 'sq' || piece == 'surrender'
+      return piece if piece == 'sq' || piece == 'surrender'
 
       print_board(piece, valid_moves[piece])
       move = select_move(valid_moves[piece])
@@ -55,7 +55,7 @@ class ChessGame
       next if move.nil?
 
       board.move(piece, move)
-      return :moved
+      return piece
     end
   end
 
