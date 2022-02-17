@@ -83,11 +83,11 @@ class ChessBoard
 
   # Returns true if given color/player king is under attack by enemy
   def checked?(color)
-    enemy_color = color == :white ? :black : :white
+    villian_color = enemy_color(color)
     king_pos = king(color)
-    enemy_moves = positions_under_attack_by(enemy_color)
+    villian_moves = positions_under_attack_by(villian_color)
 
-    enemy_moves.include?(king_pos)
+    villian_moves.include?(king_pos)
   end
 
   def checkmate?(color)
@@ -121,6 +121,10 @@ class ChessBoard
   end
 
   private
+
+  def enemy_color(color)
+    color == :white ? :black : :white
+  end
 
   # Returns array of potential moves a piece can make, given the current board
   # Moves based off of piece movement, does not take into account any other restrictions 
