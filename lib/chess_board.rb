@@ -63,28 +63,6 @@ class ChessBoard
     at_index(position).color
   end
 
-  # Returns array of potential moves a piece can make, given the current board
-  # Moves based off of piece movement, does not take into account any other restrictions 
-  # (i.e., whether move would result in check/checkmate)
-  def return_potential_moves(position)
-    return if empty?(position)
-
-    at_index(position).valid_moves(self, position)
-  end
-
-  # Returns a hash of all { [piece_position]: [moves] } combinations for a given color/player
-  def return_all_potential_moves(color)
-    moves = {}
-    board.each_with_index do |row, row_num|
-      row.each_index do |col_num|
-        position = [row_num, col_num]
-        moves[position] = return_potential_moves(position) if color(position) == color
-      end
-    end
-
-    moves
-  end
-
   # Returns a hash of all valid { [piece_position]: [moves] } combinations for a given color/player
   def return_all_valid_moves(color)
     potential_moves = return_all_potential_moves(color)
@@ -103,16 +81,6 @@ class ChessBoard
     all_potential_moves.values.flatten(1)
   end
 
-  # Returns the position of the King piece for a given color/player
-  def king(color)
-    board.each_with_index do |row, row_num|
-      row.each_index do |col_num|
-        position = [row_num, col_num]
-        return position if at_index(position).instance_of?(King) && color(position) == color
-      end
-    end
-  end
-
   # Returns true if given color/player king is under attack by enemy
   def checked?(color)
     enemy_color = color == :white ? :black : :white
@@ -125,18 +93,6 @@ class ChessBoard
   def checkmate?(color)
     valid_moves = return_all_valid_moves(color)
     valid_moves.values.flatten.empty?
-  end
-
-  # Checks whether move puts player making the move into check, making it invalid
-  def invalid_move?(starting, ending)
-    tmp = board.dup.map(&:dup)
-
-    board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
-    board[starting[0]][starting[1]] = nil
-    self_check = checked?(color(ending))
-
-    @board = tmp
-    self_check
   end
 
   # Prints contents of the board, can highlight specific squares if position provided
@@ -165,6 +121,50 @@ class ChessBoard
   end
 
   private
+
+  # Returns array of potential moves a piece can make, given the current board
+  # Moves based off of piece movement, does not take into account any other restrictions 
+  # (i.e., whether move would result in check/checkmate)
+  def return_potential_moves(position)
+    return if empty?(position)
+
+    at_index(position).valid_moves(self, position)
+  end
+
+  # Returns a hash of all { [piece_position]: [moves] } combinations for a given color/player
+  def return_all_potential_moves(color)
+    moves = {}
+    board.each_with_index do |row, row_num|
+      row.each_index do |col_num|
+        position = [row_num, col_num]
+        moves[position] = return_potential_moves(position) if color(position) == color
+      end
+    end
+
+    moves
+  end
+
+  # Returns the position of the King piece for a given color/player
+  def king(color)
+    board.each_with_index do |row, row_num|
+      row.each_index do |col_num|
+        position = [row_num, col_num]
+        return position if at_index(position).instance_of?(King) && color(position) == color
+      end
+    end
+  end
+
+  # Checks whether move puts player making the move into check, making it invalid
+  def invalid_move?(starting, ending)
+    tmp = board.dup.map(&:dup)
+
+    board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
+    board[starting[0]][starting[1]] = nil
+    self_check = checked?(color(ending))
+
+    @board = tmp
+    self_check
+  end
 
   # Creates default new board
   def new_board
