@@ -131,6 +131,30 @@ class ChessBoard
 
   private
 
+  def castling?(starting, ending)
+    return false unless at_index(starting).instance_of?(King)
+
+    
+
+  def castle(starting, ending)
+    board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
+    board[starting[0]][starting[1]] = nil
+
+    if (starting[1] - ending[1]).negative?
+      board[starting[0]][5] = board[starting[0]][7]
+      board[starting[0]][7] = nil
+
+      board[starting[0]][5].moved = true
+    else
+      board[starting[0]][3] = board[starting[0]][0]
+      board[starting[0]][0] = nil
+
+      board[starting[0]][3].moved = true
+    end
+
+    at_index(ending).moved = true
+  end
+
   def enemy_color(color)
     color == :white ? :black : :white
   end
