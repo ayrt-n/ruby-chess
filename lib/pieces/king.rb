@@ -40,19 +40,19 @@ class King < ChessPiece
   def valid_right_castle?(board, pos)
     one_right = move(pos, right)
     two_right = move(one_right, right)
-    return false unless castle_move_valid?(board, one_right) || castle_move_valid?(board, two_right)
+    return false unless castle_move_valid?(board, one_right) && castle_move_valid?(board, two_right)
 
     rook_pos = move(two_right, right)
-    return false unless castleable_rook?(board, rook_pos)
+    castleable_rook?(board, rook_pos)
   end
 
   def valid_left_castle?(board, pos)
     one_left = move(pos, left)
     two_left = move(one_left, left)
-    return false unless castle_move_valid?(board, one_left) || castle_move_valid?(board, two_left)
+    return false unless castle_move_valid?(board, one_left) && castle_move_valid?(board, two_left)
 
     rook_pos = move(move(two_left, left), left)
-    return false unless castleable_rook?(board, rook_pos)
+    castleable_rook?(board, rook_pos)
   end
 
   def castle_move_valid?(board, move)
