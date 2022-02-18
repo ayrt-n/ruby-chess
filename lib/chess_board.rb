@@ -81,6 +81,14 @@ class ChessBoard
     all_potential_moves.values.flatten(1)
   end
 
+  # Checks whether a given color/player is under attack at a certain position
+  def under_attack_at?(position, color)
+    villian_color = enemy_color(color)
+    villian_moves = positions_under_attack_by(villian_color)
+
+    villian_moves.include?(position)
+  end
+
   # Returns true if given color/player king is under attack by enemy
   def checked?(color)
     villian_color = enemy_color(color)
@@ -157,6 +165,9 @@ class ChessBoard
       end
     end
   end
+
+  # Returns position of the Rook piece for a given color/player
+  def rook(color)
 
   # Checks whether move puts player making the move into check, making it invalid
   def invalid_move?(starting, ending)
