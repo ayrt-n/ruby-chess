@@ -20,11 +20,15 @@ class ChessBoard
 
   # Moves piece from starting position to ending positon
   def move(starting, ending)
-    board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
-    board[starting[0]][starting[1]] = nil
+    if castling?(starting, ending)
+      castle(starting, ending)
+    else
+      board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
+      board[starting[0]][starting[1]] = nil
 
-    at_index(ending).moved = true
-    promote(ending) if promotion?(ending)
+      at_index(ending).moved = true
+      promote(ending) if promotion?(ending)
+    end
   end
 
   # Replace the piece at a given position with a Queen
@@ -134,7 +138,8 @@ class ChessBoard
   def castling?(starting, ending)
     return false unless at_index(starting).instance_of?(King)
 
-    
+    (starting[1] - ending[1]).abs > 1
+  end
 
   def castle(starting, ending)
     board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
