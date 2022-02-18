@@ -18,7 +18,7 @@ class ChessPiece
     @moved = moved
   end
 
-  def promotion?(board, pos)
+  def promotion?(_, _)
     false
   end
 
