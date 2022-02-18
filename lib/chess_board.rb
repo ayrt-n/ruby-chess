@@ -70,6 +70,7 @@ class ChessBoard
 
     potential_moves.each do |piece, moves|
       valid_moves[piece] = moves.reject { |move| invalid_move?(piece, move) }
+      valid_moves[piece] += return_castle_moves(piece) if at_index(piece).instance_of?(King) && color(piece) == color
     end
 
     valid_moves
@@ -150,7 +151,6 @@ class ChessBoard
       row.each_index do |col_num|
         position = [row_num, col_num]
         moves[position] = return_potential_moves(position) if color(position) == color
-        moves[position] += return_castle_moves(position) if at_index(position).instance_of?(King) && color(position) == color
       end
     end
 
