@@ -37,7 +37,7 @@ class ChessGame
       puts "Check! The #{current_player} king is under attack, protect him!" if board.checked?(current_player)
 
       player_move = player_turn(valid_moves)
-      return player_move.to_sym if %I[sq surrender].include?(player_move)
+      return player_move.to_sym if %w[sq surrender].include?(player_move)
 
       switch_current_player
     end
