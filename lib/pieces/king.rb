@@ -18,11 +18,14 @@ class King < ChessPiece
   def castle_moves(board, pos)
     valid_castle_moves = []
 
-    side_to_side.each do |move|
-      next_move = move(pos, move)
-      next unless castle_move_valid?(board, next_move)
-      next_move = move(next_move, move)
-      castle_moves << next_move if castle_move_valid?(board, next_move)
+    if valid_right_castle?(board, pos)
+      right_move = move(move(pos, right), right)
+      valid_castle_moves << right_move
+    end
+
+    if valid_left_castle?(board, pos)
+      left_move = move(move(pos, left), left)
+      valid_castle_moves << left_move
     end
 
     valid_castle_moves
@@ -33,6 +36,32 @@ class King < ChessPiece
   end
 
   private
+
+  def valid_right_castle?(board, pos)
+    3.times do
+      next_move = move(pos, right)
+      return false unless castle_move_valid?(board, next_move)
+
+      next_move = move(next_move, right)
+      return false unless castle_move_valid?(board, next_move)
+
+      rook_pos = move(next_move, right)
+      return false unless board.at_index(rook_pos).instance_of?(Rook) && board.at_index(rook_pos).not_moved?
+    end
+  end
+
+  def valid_left_castle?(board, pos)
+    4.times do
+      next_move = move(pos, left)
+      return false unless castle_move_valid?(board, next_move)
+
+      next_move = move(next_move, left)
+      return false unless castle_move_valid?(board, next_move)
+
+      rook_pos = move(move(next_move, left), left)
+      return false unless board.at_index(rook_pos).instance_of?(Rook) && board.at_index(rook_pos).not_moved?
+    end
+  end
 
   def castle_move_valid?(board, move)
     board.in_bounds?(move) && board.empty?(move) &&
