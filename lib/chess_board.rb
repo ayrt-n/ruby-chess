@@ -150,10 +150,17 @@ class ChessBoard
       row.each_index do |col_num|
         position = [row_num, col_num]
         moves[position] = return_potential_moves(position) if color(position) == color
+        moves[position] += return_castle_moves(position) if at_index(position).instance_of?(King) && color(position) == color
       end
     end
 
     moves
+  end
+
+  def return_castle_moves(position)
+    return if empty?(position)
+
+    at_index(position).castle_moves(self, position)
   end
 
   # Returns the position of the King piece for a given color/player
@@ -165,9 +172,6 @@ class ChessBoard
       end
     end
   end
-
-  # Returns position of the Rook piece for a given color/player
-  def rook(color)
 
   # Checks whether move puts player making the move into check, making it invalid
   def invalid_move?(starting, ending)
