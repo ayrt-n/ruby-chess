@@ -70,12 +70,6 @@ class ChessBoard
     valid_moves
   end
 
-  # Returns an array of all positions under attack by a given color/player
-  def positions_under_attack_by(color)
-    all_potential_moves = return_all_potential_moves(color)
-    all_potential_moves.values.flatten(1)
-  end
-
   # Checks whether a given color/player is under attack at a certain position
   def under_attack_at?(position, color)
     villian_color = enemy_color(color)
@@ -126,6 +120,12 @@ class ChessBoard
   end
 
   private
+
+  # Returns an array of all positions under attack by a given color/player
+  def positions_under_attack_by(color)
+    all_potential_moves = return_all_potential_moves(color)
+    all_potential_moves.values.flatten(1)
+  end
 
   # Runs through number of checks and updates to game state (moved, pawn promotion, en passant)
   def post_move_routine(starting, ending)
