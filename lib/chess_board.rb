@@ -23,8 +23,7 @@ class ChessBoard
     if castling?(starting, ending)
       castle(starting, ending)
     else
-      board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
-      board[starting[0]][starting[1]] = nil
+      move_piece(starting, ending)
 
       at_index(ending).moved = true
       promote(ending) if promotion?(ending)
@@ -150,6 +149,11 @@ class ChessBoard
     end
   end
 
+  def move_piece(starting, ending)
+    board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
+    board[starting[0]][starting[1]] = nil
+  end
+
   # Check if move is castling based on piece and distance moved
   def castling?(starting, ending)
     return false unless at_index(starting).instance_of?(King)
@@ -159,17 +163,14 @@ class ChessBoard
 
   # Makes castle moves
   def castle(starting, ending)
-    board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
-    board[starting[0]][starting[1]] = nil
+    move_piece(starting, ending)
 
     if (starting[1] - ending[1]).negative?
-      board[starting[0]][5] = board[starting[0]][7]
-      board[starting[0]][7] = nil
+      move_piece([starting[0], 7], [starting[0], 5])
 
       board[starting[0]][5].moved = true
     else
-      board[starting[0]][3] = board[starting[0]][0]
-      board[starting[0]][0] = nil
+      move_piece([starting[0], 0], [starting[0], 3])
 
       board[starting[0]][3].moved = true
     end
@@ -224,8 +225,7 @@ class ChessBoard
   def invalid_move?(starting, ending)
     tmp = board.dup.map(&:dup)
 
-    board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
-    board[starting[0]][starting[1]] = nil
+    move_piece(starting, ending)
     self_check = checked?(color(ending))
 
     @board = tmp
