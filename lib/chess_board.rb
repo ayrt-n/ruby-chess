@@ -25,13 +25,10 @@ class ChessBoard
     elsif en_passant_take?(starting, ending)
       en_passant(starting, ending)
     else
-      move_piece(starting, ending)
-
-      at_index(ending).moved = true
-      promote(ending) if promotion?(ending)
-      reset_en_pass_pawn
-      queue_en_pass_pawn(ending) if en_passantable_move?(starting, ending)
+      standard_move(starting, ending)
     end
+
+    post_move_routine(starting, ending)
   end
 
   # Checks whether a position is within boundaries of board
@@ -130,9 +127,16 @@ class ChessBoard
 
   private
 
+  # Runs through number of checks and updates to game state (moved, pawn promotion, en passant)
+  def post_move_routine(starting, ending)
+    at_index(ending).moved = true
+    promote(ending) if promotion?(ending)
+    reset_en_pass_pawn
+    queue_en_pass_pawn(ending) if en_passantable_move?(starting, ending)
+  end
+
   def standard_move(starting, ending)
     move_piece(starting, ending)
-    at_index(ending).moved = true
   end
 
   def en_passant_take?(starting, ending)
