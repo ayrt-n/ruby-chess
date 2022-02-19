@@ -3,16 +3,14 @@
 require './lib/chess_board'
 
 describe ChessBoard do
-  describe '#move' do
+  describe '#move_piece' do
     it 'moves object from one array location to another' do
       piece = double('piece')
-      allow(piece).to receive(:moved=)
       example_board = ChessBoard.new([[nil, piece, nil], [nil, nil, nil]])
-      allow(example_board).to receive(:post_move_routine)
       starting = [0, 1]
       ending = [1, 1]
 
-      example_board.move(starting, ending)
+      example_board.send(:move_piece, starting, ending)
       expect(example_board.board).to eql([[nil, nil, nil], [nil, piece, nil]])
     end
   end
@@ -45,6 +43,29 @@ describe ChessBoard do
       expect(example_board).not_to be_empty([0, 0])
     end
   end
+
+  describe '#color' do
+    it 'returns the color attribute from a piece' do
+      piece = double('piece')
+      allow(piece).to receive(:color).and_return(:black)
+      example_board = ChessBoard.new([[nil, piece, nil], [nil, nil, nil]])
+
+      color = example_board.color([0, 1])
+
+      expect(color).to eql(:black)
+    end
+
+    it 'returns nil when position is empty' do
+      piece = double('piece')
+      allow(piece).to receive(:color).and_return(:black)
+      example_board = ChessBoard.new([[nil, piece, nil], [nil, nil, nil]])
+
+      color = example_board.color([0, 2])
+
+      expect(color).to eql(nil)
+    end
+  end
+
 
   describe '#at_index' do
     it 'returns the element given board coordinates' do
