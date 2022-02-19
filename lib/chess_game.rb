@@ -20,6 +20,8 @@ class ChessGame
   # control flow to output ending message
   def play
     outcome_of_game = game
+    print_board
+
     case outcome_of_game
     when :checkmate
       puts "Checkmate! #{not_current_player.capitalize} wins!"
