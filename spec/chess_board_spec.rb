@@ -8,8 +8,10 @@ describe ChessBoard do
       piece = double('piece')
       allow(piece).to receive(:moved=)
       example_board = ChessBoard.new([[nil, piece, nil], [nil, nil, nil]])
+      allow(example_board).to receive(:post_move_routine)
       starting = [0, 1]
       ending = [1, 1]
+
       example_board.move(starting, ending)
       expect(example_board.board).to eql([[nil, nil, nil], [nil, piece, nil]])
     end
@@ -55,11 +57,11 @@ describe ChessBoard do
   describe '#king' do
     it 'returns the position of the king of a given color' do
       new_board = ChessBoard.new
-      black_king = new_board.king(:black)
-      white_king = new_board.king(:white)
+      black_king = new_board.send(:king, :black)
+      white_king = new_board.send(:king, :white)
 
-      expect(black_king).to eql([0, 3])
-      expect(white_king).to eql([7, 3])
+      expect(black_king).to eql([0, 4])
+      expect(white_king).to eql([7, 4])
     end
   end
 end
