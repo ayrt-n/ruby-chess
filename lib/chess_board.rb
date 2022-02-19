@@ -22,6 +22,8 @@ class ChessBoard
   def move(starting, ending)
     if castling?(starting, ending)
       castle(starting, ending)
+    elsif en_passant_take?(starting, ending)
+      en_passant(starting, ending)
     else
       move_piece(starting, ending)
 
@@ -128,8 +130,28 @@ class ChessBoard
 
   private
 
+  def standard_move(starting, ending)
+    move_piece(starting, ending)
+    at_index(ending).moved = true
+  end
+
+  def en_passant_take?(starting, ending)
+    return false unless at_index(starting).instance_of?(Pawn)
+
+    is_a_take = (starting[1] - ending[1]).abs == 1
+
+    is_a_take && empty?(ending)
+  end
+
+  def en_passant(starting, ending)
+    move_piece(starting, ending)
+
+    board[en_passantable[0]][en_passantable[1]] = nil
+  end
+
   def en_passantable_move?(starting, ending)
     return false unless at_index(ending).instance_of?(Pawn)
+
     (starting[0] - ending[0]).abs > 1
   end
 
