@@ -100,6 +100,7 @@ class ChessBoard
   # Prints contents of the board, can highlight specific squares if position provided
   def pretty_print(highlight = [])
     puts ''
+    puts '    a  b  c  d  e  f  g  h '
     board.each_with_index do |row, row_num|
       print " #{8 - row_num} "
 
@@ -116,6 +117,7 @@ class ChessBoard
           print " #{sq} ".colorize(:background => pattern[col_num % 2])
         end
       end
+      print " #{8 - row_num} "
       puts ''
     end
     puts '    a  b  c  d  e  f  g  h '
