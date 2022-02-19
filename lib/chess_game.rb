@@ -10,7 +10,7 @@ class ChessGame
 
   attr_accessor :current_player, :not_current_player, :board
 
-  def initialize(current_player = :white, not_current_player = :black, board = ChessBoard.new)
+  def initialize(current_player: :white, not_current_player: :black, board: ChessBoard.new)
     @current_player = current_player
     @not_current_player = not_current_player
     @board = board
@@ -37,10 +37,10 @@ class ChessGame
   # When game is over, returns symbol based on how the game was terminated (e.g., :checkmate)
   def game
     loop do
-      return :checkmate if board.checkmate?(current_player)
+      return :checkmate if checkmate?(current_player)
 
-      valid_moves = board.return_all_valid_moves(current_player)
-      puts "Check! The #{current_player} king is under attack, protect him!" if board.checked?(current_player)
+      valid_moves = player_valid_moves(current_player)
+      puts "Check! The #{current_player} king is under attack, protect him!" if checked?(current_player)
 
       player_move = player_turn(valid_moves)
       return player_move.to_sym if %w[sq surrender].include?(player_move)
@@ -104,6 +104,21 @@ class ChessGame
   def print_board(piece = [], moves = [])
     highlight = [piece] + moves
     board.pretty_print(highlight)
+  end
+
+  # Encapsulates call to ChessBoard#checkmate?
+  def checkmate?(player)
+    board.checkmate?(player)
+  end
+
+  # Encapsulates call to ChessBoard#checked?
+  def checked?(player)
+    board.checked?(player)
+  end
+
+  # Encapsulates call to ChessBoard#return_all_valid_moves
+  def player_valid_moves(player)
+    board.return_all_valid_moves(player)
   end
 
   # Switch the current player
