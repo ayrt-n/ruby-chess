@@ -31,16 +31,6 @@ class ChessBoard
     end
   end
 
-  # Replace the piece at a given position with a Queen
-  def promote(position)
-    piece_color = color(position)
-    board[position[0]][position[1]] = Queen.new(piece_color)
-  end
-
-  def promotion?(position)
-    at_index(position).promotion?(self, position)
-  end
-
   # Checks whether a position is within boundaries of board
   # Returns true if inbounds, false otherwise
   def in_bounds?(position)
@@ -135,12 +125,39 @@ class ChessBoard
 
   private
 
+  # Replace the piece at a given position with a Queen
+  def promote(position)
+    piece_color = color(position)
+    promotion_piece = prompt_promotion_piece
+    board[position[0]][position[1]] = promotion_piece.new(piece_color)
+  end
+
+  # Check if piece at given position qualifies for a promotion
+  def promotion?(position)
+    return if empty?(position)
+
+    at_index(position).promotion?(self, position)
+  end
+
+  # Prompt user for input as to what they want piece to be promoted to
+  def prompt_promotion_piece
+    loop do
+      print 'Pawn promotion! You can upgrade your pawn to a Queen, Rook, Bishop, or Knight: '
+      input = gets.chomp.capitalize!
+      return Object.const_get(input) if %w[Queen Rook Bishop Knight].include?(input)
+
+      puts 'Invalid input - Please select Queen, Rook, Bishop, or Knight'
+    end
+  end
+
+  # Check if move is castling based on piece and distance moved
   def castling?(starting, ending)
     return false unless at_index(starting).instance_of?(King)
 
     (starting[1] - ending[1]).abs > 1
   end
 
+  # Makes castle moves
   def castle(starting, ending)
     board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
     board[starting[0]][starting[1]] = nil
@@ -160,6 +177,7 @@ class ChessBoard
     at_index(ending).moved = true
   end
 
+  # Returns the enemy color given a certain player color
   def enemy_color(color)
     color == :white ? :black : :white
   end
