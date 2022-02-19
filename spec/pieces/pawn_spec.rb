@@ -10,6 +10,8 @@ describe Pawn do
         pawn = Pawn.new(:white)
         allow(pawn).to receive(:move_valid?).and_return(true)
         allow(pawn).to receive(:take?).and_return(false)
+        allow(pawn).to receive(:left_en_passant?).and_return(false)
+        allow(pawn).to receive(:right_en_passant?).and_return(false)
         current_position = [6, 3]
 
         valid_moves = pawn.valid_moves(board, current_position)
@@ -25,6 +27,8 @@ describe Pawn do
         allow(pawn).to receive(:move_valid?).and_return(true)
         allow(pawn).to receive(:not_moved?).and_return(false)
         allow(pawn).to receive(:take?).and_return(false)
+        allow(pawn).to receive(:left_en_passant?).and_return(false)
+        allow(pawn).to receive(:right_en_passant?).and_return(false)
         current_position = [6, 3]
 
         valid_moves = pawn.valid_moves(board, current_position)
@@ -39,11 +43,29 @@ describe Pawn do
         pawn = Pawn.new(:white)
         allow(pawn).to receive(:move_valid?).and_return(true)
         allow(pawn).to receive(:take?).and_return(true)
+        allow(pawn).to receive(:left_en_passant?).and_return(false)
+        allow(pawn).to receive(:right_en_passant?).and_return(false)
         current_position = [6, 3]
 
         valid_moves = pawn.valid_moves(board, current_position)
 
         expect(valid_moves).to contain_exactly([5, 3], [4, 3], [5, 2], [5, 4])
+      end
+    end
+
+    context 'when pawn can take en passant' do
+      it 'returns array of valid moves' do
+        board = double('board')
+        pawn = Pawn.new(:white, moved: true)
+        allow(pawn).to receive(:move_valid?).and_return(false)
+        allow(pawn).to receive(:take?).and_return(false)
+        allow(pawn).to receive(:left_en_passant?).and_return(true)
+        allow(pawn).to receive(:right_en_passant?).and_return(true)
+        current_position = [6, 3]
+
+        valid_moves = pawn.valid_moves(board, current_position)
+
+        expect(valid_moves).to contain_exactly([5, 2], [5, 4])
       end
     end
 
@@ -53,6 +75,8 @@ describe Pawn do
         pawn = Pawn.new(:white)
         allow(pawn).to receive(:move_valid?).and_return(false)
         allow(pawn).to receive(:take?).and_return(false)
+        allow(pawn).to receive(:left_en_passant?).and_return(false)
+        allow(pawn).to receive(:right_en_passant?).and_return(false)
         current_position = [6, 3]
 
         valid_moves = pawn.valid_moves(board, current_position)
@@ -67,6 +91,8 @@ describe Pawn do
         pawn = Pawn.new(:black)
         allow(pawn).to receive(:move_valid?).and_return(true)
         allow(pawn).to receive(:take?).and_return(false)
+        allow(pawn).to receive(:left_en_passant?).and_return(false)
+        allow(pawn).to receive(:right_en_passant?).and_return(false)
         current_position = [1, 3]
 
         valid_moves = pawn.valid_moves(board, current_position)
