@@ -12,7 +12,7 @@ require './lib/pieces/king'
 # Class representation of chess board
 # Keeps track of and updates the position of chess pieces throughout the game
 class ChessBoard
-  attr_accessor :board
+  attr_accessor :board, :en_passantable
 
   def initialize(board = new_board)
     @board = board
@@ -27,6 +27,8 @@ class ChessBoard
 
       at_index(ending).moved = true
       promote(ending) if promotion?(ending)
+      reset_en_pass_pawn
+      queue_en_pass_pawn(ending) if en_passantable_move?(starting, ending)
     end
   end
 
@@ -125,6 +127,19 @@ class ChessBoard
   end
 
   private
+
+  def en_passantable_move?(starting, ending)
+    return false unless at_index(ending).instance_of?(Pawn)
+    (starting[0] - ending[0]).abs > 1
+  end
+
+  def reset_en_pass_pawn
+    @en_passantable = []
+  end
+
+  def queue_en_pass_pawn(position)
+    @en_passantable = position
+  end
 
   # Replace the piece at a given position with a Queen
   def promote(position)
