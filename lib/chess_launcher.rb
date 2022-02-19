@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require './lib/savestate'
 require './lib/chess_game'
 require 'yaml'
 
 # Class to launch or load game of chess
 class ChessLauncher
+  # Main launching method - prompts user for game type and launches game
   def play_game
     welcome_message
     game_type = prompt_player_input([1, 2])
@@ -21,10 +21,13 @@ class ChessLauncher
 
   private
 
+  # Launch new ChessGame
   def launch_new_game
     ChessGame.new
   end
 
+  # Makes calls to displays saved games (if available), prompt game selection
+  # and launch the saved game
   def launch_saved_game
     savestates = Dir.glob("savestates/*.{yaml, YAML}")
     if savestates.empty?
@@ -38,22 +41,26 @@ class ChessLauncher
     end
   end
 
+  # Prompt player to select saved game
   def select_saved_game(savestates)
     acceptable_values = [*1..savestates.size]
     file_idx = prompt_player_input(acceptable_values) - 1
     File.open(savestates[file_idx], 'r').read
   end
 
+  # Print out saved games with human-count adjusted indices
   def print_saved_games(savestates)
     savestates.each_with_index do |file, idx|
       puts "[#{idx + 1}] #{File.basename(file)}"
     end
   end
 
+  # Load game given YAML string
   def load_game(string)
     YAML.load(string)
   end
 
+  # Prompt player for input, specifying acceptable (integer) values
   def prompt_player_input(acceptable_values)
     loop do
       input = gets.chomp.to_i
@@ -63,6 +70,7 @@ class ChessLauncher
     end
   end
 
+  # Simple welcome message with game options
   def welcome_message
     puts <<~HEREDOC
 
