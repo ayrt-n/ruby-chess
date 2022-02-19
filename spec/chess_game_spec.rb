@@ -94,4 +94,54 @@ describe ChessGame do
       end
     end
   end
+
+  describe '#select_piece' do
+    let(:board) { double('board') }
+    let(:game) { ChessGame.new(board: board) }
+
+    before do
+      allow(board).to receive(:pretty_print)
+      allow(board).to receive(:checked?).and_return(false)
+
+      allow(game).to receive(:print)
+    end
+
+    context 'when player provides valid selection' do
+      it 'returns the position of the piece' do
+        allow(game).to receive(:gets).and_return('c5')
+        allow(game).to receive(:valid_coord?).and_return(true)
+        allow(game).to receive(:chess_to_array_index).and_return([5, 2])
+        allow(board).to receive(:color).and_return(game.current_player)
+
+        piece = game.send(:select_piece)
+        expect(piece).to eql([5, 2])
+      end
+
+      it 'returns sq when player wants to save and quit' do
+        allow(game).to receive(:gets).and_return('sq')
+        allow(game).to receive(:valid_coord?).and_return(false)
+
+        piece = game.send(:select_piece)
+        expect(piece).to eql('sq')
+      end
+
+      it 'returns sq when player wants to surrender' do
+        allow(game).to receive(:gets).and_return('surrender')
+        allow(game).to receive(:valid_coord?).and_return(false)
+
+        piece = game.send(:select_piece)
+        expect(piece).to eql('surrender')
+      end
+    end
+
+    context 'when player provides incorrect input' do
+      it 'displays error message and loops until valid' do
+        allow(game).to receive(:gets).and_return('gibberish', 'surrender')
+        allow(game).to receive(:valid_coord?).and_return(false)
+
+        expect(game).to receive(:puts).with('Invalid selection - Please select one of your pieces').once
+        game.send(:select_piece)
+      end
+    end
+  end
 end
