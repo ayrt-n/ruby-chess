@@ -13,7 +13,7 @@ class ChessPiece
   attr_reader :color
   attr_accessor :moved
 
-  def initialize(color, moved = false)
+  def initialize(color, moved: false)
     @color = color
     @moved = moved
   end
