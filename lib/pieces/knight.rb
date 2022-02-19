@@ -4,6 +4,7 @@ require './lib/pieces/chess_piece'
 
 # Class containing knight play logic
 class Knight < ChessPiece
+  # Return array of valid moves based on piece movement (does not account for other rules of the game)
   def valid_moves(board, pos)
     valid_moves = []
 
@@ -15,6 +16,7 @@ class Knight < ChessPiece
     valid_moves
   end
 
+  # Makes to_s method pretty!
   def to_s
     '♞'.colorize(color)
   end
