@@ -7,6 +7,7 @@ class Pawn < ChessPiece
   attr_reader :direction
   attr_accessor :moved
 
+  # Return array of valid moves based on piece movement (does not account for other rules of the game)
   def valid_moves(board, pos)
     valid_moves = []
 
@@ -18,10 +19,12 @@ class Pawn < ChessPiece
     valid_moves
   end
 
+  # Makes to_s method pretty!
   def to_s
     '♟︎'.colorize(color)
   end
 
+  # Check if pawn qualified for promotion, return bool
   def promotion?(board, pos)
     !board.in_bounds?(one_forward(pos))
   end
