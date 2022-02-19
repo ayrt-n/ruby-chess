@@ -12,8 +12,8 @@ class Pawn < ChessPiece
 
     valid_moves << one_forward(pos) if move_valid?(board, one_forward(pos))
     valid_moves << two_forward(pos) if move_valid?(board, one_forward(pos)) && move_valid?(board, two_forward(pos)) && not_moved?
-    valid_moves << left_diagonal(pos) if take?(board, left_diagonal(pos))
-    valid_moves << right_diagonal(pos) if take?(board, right_diagonal(pos))
+    valid_moves << left_diagonal(pos) if take?(board, left_diagonal(pos)) || left_en_passant?(board, pos)
+    valid_moves << right_diagonal(pos) if take?(board, right_diagonal(pos)) || right_en_passant?(board, pos)
 
     valid_moves
   end
@@ -27,6 +27,16 @@ class Pawn < ChessPiece
   end
 
   private
+
+  def left_en_passant?(board, pos)
+    direct_left = move(pos, left)
+    board.en_passantable == direct_left
+  end
+
+  def right_en_passant?(board, pos)
+    direct_left = move(pos, right)
+    board.en_passantable == direct_left
+  end
 
   def forward
     if color == :white
