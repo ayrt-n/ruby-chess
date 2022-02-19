@@ -61,7 +61,7 @@ class King < ChessPiece
   end
 
   def castleable_rook?(board, pos)
-    board.at_index(pos).instance_of?(Rook) && board.at_index(pos).not_moved?
+    board.at_index(pos).instance_of?(Rook) && board.at_index(pos).not_moved? && board.color(pos) == color
   end
 
   def king_moves
