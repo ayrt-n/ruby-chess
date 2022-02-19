@@ -16,6 +16,8 @@ class ChessGame
     @board = board
   end
 
+  # Launch full game of chess, outcome_of_game returned as symbol and entered into
+  # control flow to output ending message
   def play
     outcome_of_game = game
     case outcome_of_game
@@ -29,6 +31,10 @@ class ChessGame
     end
   end
 
+  private
+
+  # Full game loop, loops through player turns and switches players after turn over
+  # When game is over, returns symbol based on how the game was terminated (e.g., :checkmate)
   def game
     loop do
       return :checkmate if board.checkmate?(current_player)
@@ -43,6 +49,7 @@ class ChessGame
     end
   end
 
+  # A single player turn loop, including piece selection and move selection
   def player_turn(valid_moves)
     loop do
       print_board
@@ -59,10 +66,11 @@ class ChessGame
     end
   end
 
+  # Prompts user for input on move selection, only allows player to select valid moves
   def select_move(valid_moves)
     loop do
       print "#{current_player.capitalize} select move (or hit <ENTER> to cancel): "
-      move = prompt_player_move
+      move = gets.chomp
       return if move == ''
 
       if valid_coord?(move)
@@ -74,6 +82,8 @@ class ChessGame
     end
   end
 
+  # Prompts user for input on piece selection, only allows player to select valid pieces
+  # Alternatively, player may save and quit or surrender from piece selection option
   def select_piece
     loop do
       print "#{current_player.capitalize} select piece (or type 'sq' to save and quit or 'surrender' to surrender): "
@@ -82,7 +92,7 @@ class ChessGame
       if valid_coord?(position)
         position = chess_to_array_index(position)
         return position if board.color(position) == current_player
-      elsif position == 'sq' || position == 'surrender'
+      elsif %w[sq surrender].include?(position)
         return position
       end
 
@@ -90,36 +100,22 @@ class ChessGame
     end
   end
 
-  def move_piece(piece, move)
-    board.move(piece, move)
-    board.at_index(move).moved = true
-  end
-
+  # Encapsulates call to ChessBoard#pretty_print
   def print_board(piece = [], moves = [])
     highlight = [piece] + moves
     board.pretty_print(highlight)
   end
 
-  def prompt_player_move
-    loop do
-      input = gets.chomp
-      return input if valid_coord?(input) || input == ''
-
-      puts 'Invalid selection - Please enter valid coordinate'
-    end
-  end
-
+  # Switch the current player
   def switch_current_player
     tmp = current_player
     self.current_player = not_current_player
     self.not_current_player = tmp
   end
 
+  # Create new instance of Savestate and save (serialize) current game state
   def save_game
     savestate = Savestate.new('savestates')
     savestate.create_savestate(self)
   end
 end
-
-# game = ChessGame.new
-# game.game
