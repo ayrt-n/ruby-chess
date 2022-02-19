@@ -25,7 +25,7 @@ class ChessBoard
     elsif en_passant_take?(starting, ending)
       en_passant(starting, ending)
     else
-      standard_move(starting, ending)
+      move_piece(starting, ending)
     end
 
     post_move_routine(starting, ending)
@@ -135,10 +135,7 @@ class ChessBoard
     queue_en_pass_pawn(ending) if en_passantable_move?(starting, ending)
   end
 
-  def standard_move(starting, ending)
-    move_piece(starting, ending)
-  end
-
+  # Check if move is an en passant take, return true/false
   def en_passant_take?(starting, ending)
     return false unless at_index(starting).instance_of?(Pawn)
 
@@ -147,22 +144,26 @@ class ChessBoard
     is_a_take && empty?(ending)
   end
 
+  # Make en passant take moves
   def en_passant(starting, ending)
     move_piece(starting, ending)
 
     board[en_passantable[0]][en_passantable[1]] = nil
   end
 
+  # Check if the move made puts piece vulnerable to en passant
   def en_passantable_move?(starting, ending)
     return false unless at_index(ending).instance_of?(Pawn)
 
     (starting[0] - ending[0]).abs > 1
   end
 
+  # Reset instance variable of en passantable pieces
   def reset_en_pass_pawn
     @en_passantable = []
   end
 
+  # Add piece to instance variable of en passantable pieces
   def queue_en_pass_pawn(position)
     @en_passantable = position
   end
@@ -192,6 +193,7 @@ class ChessBoard
     end
   end
 
+  # Move piece on the board, starting position becomes nil (empty)
   def move_piece(starting, ending)
     board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
     board[starting[0]][starting[1]] = nil
