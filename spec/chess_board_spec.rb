@@ -3,15 +3,15 @@
 require './lib/chess_board'
 
 describe ChessBoard do
-  describe '#move_piece' do
+  describe '#move' do
     context 'when making a regular move' do
       it 'moves object from one array location to another' do
-        piece = double('piece')
+        piece = ChessPiece.new(:white)
         example_board = ChessBoard.new([[nil, piece, nil], [nil, nil, nil]])
         starting = [0, 1]
         ending = [1, 1]
 
-        example_board.send(:move_piece, starting, ending)
+        example_board.move(starting, ending)
         expect(example_board.board).to eql([[nil, nil, nil], [nil, piece, nil]])
       end
     end
@@ -42,6 +42,26 @@ describe ChessBoard do
 
         board.move([1, 4], [1, 2])
         expect(board.board).to eql(left_castled_board)
+      end
+    end
+
+    context 'when player is taking en passant' do
+      let(:wp) { Pawn.new(:white) }
+      let(:bp) { Pawn.new(:black) }
+
+      it 'takes adjacent pawn when moving en passant' do
+        example_board = [[nil, nil, nil],
+                         [nil, nil, nil],
+                         [ wp,  bp, nil]]
+        board = ChessBoard.new(example_board)
+        board.en_passantable = [2, 1]
+
+        en_pass_board = [[nil, nil, nil],
+                         [nil,  wp, nil],
+                         [nil, nil, nil]]
+
+        board.move([2, 0], [1, 1])
+        expect(board.board).to eql(en_pass_board)
       end
     end
   end
