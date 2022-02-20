@@ -15,6 +15,35 @@ describe ChessBoard do
         expect(example_board.board).to eql([[nil, nil, nil], [nil, piece, nil]])
       end
     end
+
+    context 'when player is castling' do
+      let(:king) { King.new(:white) }
+      let(:rook) { Rook.new(:white) }
+
+      it 'moves the king and rook when castling to the right' do
+        castling_board = [[nil, nil, nil, nil, nil, nil, nil, nil],
+                          [rook, nil, nil, nil, king, nil, nil, rook]]
+        board = ChessBoard.new(castling_board)
+
+        right_castled_board = [[nil, nil, nil, nil, nil, nil, nil, nil],
+                               [rook, nil, nil, nil, nil, rook, king, nil]]
+
+        board.move([1, 4], [1, 6])
+        expect(board.board).to eql(right_castled_board)
+      end
+
+      it 'moves the king and rook when castling to the left' do
+        castling_board = [[nil, nil, nil, nil, nil, nil, nil, nil],
+                          [rook, nil, nil, nil, king, nil, nil, rook]]
+        board = ChessBoard.new(castling_board)
+
+        left_castled_board = [[nil, nil, nil, nil, nil, nil, nil, nil],
+                               [nil, nil, king, rook, nil, nil, nil, rook]]
+
+        board.move([1, 4], [1, 2])
+        expect(board.board).to eql(left_castled_board)
+      end
+    end
   end
 
   describe '#in_bounds?' do
@@ -85,6 +114,47 @@ describe ChessBoard do
 
       expect(black_king).to eql([0, 4])
       expect(white_king).to eql([7, 4])
+    end
+  end
+
+  describe '#en_passant_take?' do
+    let(:wp) { double('pawn') }
+    let(:bp) { double('pawn') }
+
+    before do
+      allow(wp).to receive(:color).and_return(:white)
+      allow(wp).to receive(:instance_of?).and_return(Pawn)
+      allow(bp).to receive(:color).and_return(:black)
+    end
+
+    it 'returns true when player is making en passant take' do
+      example_board = [[nil, nil, nil],
+                        [ wp,  bp, nil]]
+
+      board = ChessBoard.new(example_board)
+      is_en_passant_take = board.send(:en_passant_take?, [1, 0], [0, 1])
+
+      expect(is_en_passant_take).to eql(true)
+    end
+
+    it 'returns false when player is not making en passant take' do
+      example_board = [[nil, nil, nil],
+                        [ 'not_pawn',  bp, nil]]
+
+      board = ChessBoard.new(example_board)
+      is_en_passant_take = board.send(:en_passant_take?, [1, 0], [0, 1])
+
+      expect(is_en_passant_take).to eql(false)
+    end
+
+    it 'returns false when player is not making en passant take' do
+      example_board = [[nil,  bp, nil],
+                        [ wp, nil, nil]]
+
+      board = ChessBoard.new(example_board)
+      is_en_passant_take = board.send(:en_passant_take?, [1, 0], [0, 1])
+
+      expect(is_en_passant_take).to eql(false)
     end
   end
 end
