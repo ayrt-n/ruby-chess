@@ -121,18 +121,10 @@ class ChessBoard
 
   private
 
-  # Returns an array of all positions under attack by a given color/player
-  def positions_under_attack_by(color)
-    all_potential_moves = return_all_potential_moves(color)
-    all_potential_moves.values.flatten(1)
-  end
-
-  # Runs through number of checks and updates to game state (moved, pawn promotion, en passant)
-  def post_move_routine(starting, ending)
-    at_index(ending).moved = true
-    promote(ending) if promotion?(ending)
-    reset_en_pass_pawn
-    queue_en_pass_pawn(ending) if en_passantable_move?(starting, ending)
+  # Move piece on the board, starting position becomes nil (empty)
+  def move_piece(starting, ending)
+    board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
+    board[starting[0]][starting[1]] = nil
   end
 
   # Check if move is an en passant take, return true/false
@@ -168,6 +160,44 @@ class ChessBoard
     @en_passantable = position
   end
 
+  # Check if move is castling based on piece and distance moved
+  def castling?(starting, ending)
+    return false unless at_index(starting).instance_of?(King)
+
+    (starting[1] - ending[1]).abs > 1
+  end
+
+  # Makes castle moves
+  def castle(starting, ending)
+    move_piece(starting, ending)
+
+    if (starting[1] - ending[1]).negative?
+      move_piece([starting[0], 7], [starting[0], 5])
+
+      board[starting[0]][5].moved = true
+    else
+      move_piece([starting[0], 0], [starting[0], 3])
+
+      board[starting[0]][3].moved = true
+    end
+
+    at_index(ending).moved = true
+  end
+
+  def return_castle_moves(position)
+    return if empty?(position)
+
+    at_index(position).castle_moves(self, position)
+  end
+
+  # Runs through number of checks and updates to game state (moved, pawn promotion, en passant)
+  def post_move_routine(starting, ending)
+    at_index(ending).moved = true
+    promote(ending) if promotion?(ending)
+    reset_en_pass_pawn
+    queue_en_pass_pawn(ending) if en_passantable_move?(starting, ending)
+  end
+
   # Replace the piece at a given position with a Queen
   def promote(position)
     piece_color = color(position)
@@ -193,41 +223,6 @@ class ChessBoard
     end
   end
 
-  # Move piece on the board, starting position becomes nil (empty)
-  def move_piece(starting, ending)
-    board[ending[0]][ending[1]] = board[starting[0]][starting[1]]
-    board[starting[0]][starting[1]] = nil
-  end
-
-  # Check if move is castling based on piece and distance moved
-  def castling?(starting, ending)
-    return false unless at_index(starting).instance_of?(King)
-
-    (starting[1] - ending[1]).abs > 1
-  end
-
-  # Makes castle moves
-  def castle(starting, ending)
-    move_piece(starting, ending)
-
-    if (starting[1] - ending[1]).negative?
-      move_piece([starting[0], 7], [starting[0], 5])
-
-      board[starting[0]][5].moved = true
-    else
-      move_piece([starting[0], 0], [starting[0], 3])
-
-      board[starting[0]][3].moved = true
-    end
-
-    at_index(ending).moved = true
-  end
-
-  # Returns the enemy color given a certain player color
-  def enemy_color(color)
-    color == :white ? :black : :white
-  end
-
   # Returns array of potential moves a piece can make, given the current board
   # Moves based off of piece movement, does not take into account any other restrictions 
   # (i.e., whether move would result in check/checkmate)
@@ -250,10 +245,21 @@ class ChessBoard
     moves
   end
 
-  def return_castle_moves(position)
-    return if empty?(position)
+  # Returns an array of all positions under attack by a given color/player
+  def positions_under_attack_by(color)
+    all_potential_moves = return_all_potential_moves(color)
+    all_potential_moves.values.flatten(1)
+  end
 
-    at_index(position).castle_moves(self, position)
+  # Checks whether move puts player making the move into check, making it invalid
+  def invalid_move?(starting, ending)
+    tmp = board.dup.map(&:dup)
+
+    move_piece(starting, ending)
+    self_check = checked?(color(ending))
+
+    @board = tmp
+    self_check
   end
 
   # Returns the position of the King piece for a given color/player
@@ -266,15 +272,9 @@ class ChessBoard
     end
   end
 
-  # Checks whether move puts player making the move into check, making it invalid
-  def invalid_move?(starting, ending)
-    tmp = board.dup.map(&:dup)
-
-    move_piece(starting, ending)
-    self_check = checked?(color(ending))
-
-    @board = tmp
-    self_check
+  # Returns the enemy color given a certain player color
+  def enemy_color(color)
+    color == :white ? :black : :white
   end
 
   # Creates default new board
