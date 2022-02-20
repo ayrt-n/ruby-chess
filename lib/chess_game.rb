@@ -27,7 +27,6 @@ class ChessGame
       puts "Checkmate! #{not_current_player.capitalize} wins!"
     when :sq
       save_game
-      puts 'Game saved!'
     else
       puts "#{current_player.capitalize} has had enough! #{not_current_player.capitalize} wins!"
     end
@@ -56,7 +55,7 @@ class ChessGame
     loop do
       print_board
       piece = select_piece
-      return piece if piece == 'sq' || piece == 'surrender'
+      return piece if %w[sq surrender].include?(piece)
 
       print_board(piece, valid_moves[piece])
       move = select_move(valid_moves[piece])
@@ -134,5 +133,6 @@ class ChessGame
   def save_game
     savestate = Savestate.new('savestates')
     savestate.create_savestate(self)
+    puts 'Game saved!'
   end
 end
