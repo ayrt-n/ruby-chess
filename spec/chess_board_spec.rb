@@ -83,6 +83,14 @@ describe ChessBoard do
     end
   end
 
+  describe '#at_index' do
+    it 'returns the element given board coordinates' do
+      example_board = ChessBoard.new([[1, nil, nil], [nil, nil, nil]])
+      board_element = example_board.at_index([0, 0])
+      expect(board_element).to eql(1)
+    end
+  end
+
   describe '#empty?' do
     it 'returns true if spot is empty (nil)' do
       example_board = ChessBoard.new([[1, nil, nil], [nil, nil, nil]])
@@ -117,23 +125,73 @@ describe ChessBoard do
     end
   end
 
+  describe '#return_all_valid_moves' do
+    let(:wking) { King.new(:white) }
+    let(:wpawn) { Pawn.new(:white) }
+    let(:brook) { Rook.new(:black) }
 
-  describe '#at_index' do
-    it 'returns the element given board coordinates' do
-      example_board = ChessBoard.new([[1, nil, nil], [nil, nil, nil]])
-      board_element = example_board.at_index([0, 0])
-      expect(board_element).to eql(1)
+    context 'when no threat of check from other player' do
+      it 'returns hash of {[piece_position]: [valid_moves]}' do
+        example_board = [[nil, nil, nil, nil],
+                        [nil, nil, nil, nil],
+                        [wpawn, wking, nil, nil]]
+        board = ChessBoard.new(example_board)
+        allow(wking).to receive(:valid_moves).and_return([[1, 0], [1, 1], [1, 2], [2, 2]])
+        allow(wpawn).to receive(:valid_moves).and_return([[1, 0]])
+
+        valid_moves = {
+          [2, 0] => [[1, 0]],
+          [2, 1] => [[1, 0], [1, 1], [1, 2], [2, 2]]
+        }
+
+        expect(board.return_all_valid_moves(:white)).to eql(valid_moves)
+      end
+    end
+
+    context 'when player can move into a self check' do
+      it 'does not allow the player to move into self check' do
+        example_board = [[nil, nil, nil, nil],
+                        [nil, nil, nil, nil],
+                        [brook, nil, wpawn, wking]]
+        board = ChessBoard.new(example_board)
+
+        allow(wking).to receive(:valid_moves).and_return([[1, 2], [1, 3]])
+        allow(wpawn).to receive(:valid_moves).and_return([[1, 0]])
+
+        valid_moves = {
+          [2, 2] => [],
+          [2, 3] => [[1, 2], [1, 3]]
+        }
+
+        expect(board.return_all_valid_moves(:white)).to eql(valid_moves)
+      end
     end
   end
 
-  describe '#king' do
-    it 'returns the position of the king of a given color' do
-      new_board = ChessBoard.new
-      black_king = new_board.send(:king, :black)
-      white_king = new_board.send(:king, :white)
 
-      expect(black_king).to eql([0, 4])
-      expect(white_king).to eql([7, 4])
+  describe '#checked' do
+    let(:wking) { King.new(:white) }
+    let(:wpawn) { Pawn.new(:white) }
+    let(:brook) { Rook.new(:black) }
+
+    it 'returns true when player is checked' do
+      check_board = [[brook, nil, nil, nil, wking]]
+      board = ChessBoard.new(check_board)
+      allow(brook).to receive(:valid_moves).and_return([[0, 1], [0, 2], [0, 3], [0, 4]])
+      white_checked = board.checked?(:white)
+
+      expect(white_checked).to eql(true)
+    end
+
+    it 'returns false when player is checked' do
+      check_board = [[brook, nil, nil, wpawn, wking]]
+      board = ChessBoard.new(check_board)
+      allow(brook).to receive(:valid_moves).and_return([[0, 1], [0, 2], [0, 3]])
+      white_checked = board.checked?(:white)
+
+      expect(white_checked).to eql(false)
     end
   end
+
+
 end
