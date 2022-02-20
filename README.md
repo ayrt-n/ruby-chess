@@ -16,8 +16,22 @@ The game can be run from the command line by simply running:
 $ ruby lib/main.rb
 ```
 
-## Key Topics Covered
+## Game Features
 
-Capstone project from The Odin Project, providing the opportunity to implement everything learned through the Ruby section of the curriculum.
+Game fully enforces the rules of chess including:
+- Player can not move into check or ignore check
+- Checkmate if player has no valid moves and is in check
+- Stalemate if player has no valid moves and is not in check
+- Player can castle if meeting the requirements
+  - King is not in check
+  - King or rook has not moved
+  - King does not move through a spot in check
+- En passant only available in turn following a two-square pawn move
 
-Beyond the more technical aspects, this project provided the opportunity to get experience working with and solving a broadly scoped problem (final project did not provide any details on implementation). As such, I was required to think through the problem and implementation, maintain a disciplined workflow (utilizing git to safely experiment), stay organized, and break the problem down into workable components.
+Additionally, the game includes a number of quality of life functions including the option to save and load old games, select pieces and show all available moves, and surrender.
+
+## Thoughts and Takeaways
+
+Capstone project from The Odin Project, providing the opportunity to implement everything learned through the Ruby section of the curriculum (e.g., working with basic data types, OOP and design, serialization, testing and TDD).
+
+Beyond the technical aspects, this project provided the opportunity to get experience working with and solving a broadly scoped problem (final project did not provide any details on implementation). As such, I was required to think through the problem and implementation, maintain a disciplined workflow (utilizing git to safely experiment), stay organized, and break the problem down into workable components.
