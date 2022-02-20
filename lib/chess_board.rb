@@ -215,7 +215,7 @@ class ChessBoard
   # Prompt user for input as to what they want piece to be promoted to
   def prompt_promotion_piece
     loop do
-      print 'Pawn promotion! You can upgrade your pawn to a Queen, Rook, Bishop, or Knight: '
+      print 'Pawn promotion! Upgrade to a Queen, Rook, Bishop, or Knight?: '
       input = gets.chomp.capitalize!
       return Object.const_get(input) if %w[Queen Rook Bishop Knight].include?(input)
 
