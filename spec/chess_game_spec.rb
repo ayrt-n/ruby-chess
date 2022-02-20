@@ -46,14 +46,57 @@ describe ChessGame do
     end
   end
 
-  describe '#select_move' do
+  describe '#player_turn' do
     let(:board) { double('board') }
     let(:game) { ChessGame.new(board: board) }
 
     before do
       allow(board).to receive(:pretty_print)
-      allow(board).to receive(:checked?).and_return(false)
+      allow(board).to receive(:move)
+    end
 
+    context 'when player selects and enters correct move' do
+      it 'breaks out of the loop and returns the piece' do
+        allow(game).to receive(:select_piece).and_return('correct_piece')
+        allow(game).to receive(:select_move).and_return('correct_move')
+        allow(game).to receive(:print_board)
+
+        outcome_of_turn = game.send(:player_turn, {})
+        expect(outcome_of_turn).to eql('correct_piece')
+      end
+
+      it 'sends the move to the board' do
+        allow(game).to receive(:select_piece).and_return('correct_piece')
+        allow(game).to receive(:select_move).and_return('correct_move')
+        allow(game).to receive(:print_board)
+
+        expect(board).to receive(:move).with('correct_piece', 'correct_move').once
+        game.send(:player_turn, {})
+      end
+    end
+
+    context 'when player wants to save and quit or surrender' do
+      it 'breaks out of loop and returns ' do
+        allow(game).to receive(:select_piece).and_return('sq')
+
+        outcome_of_turn = game.send(:player_turn, {})
+        expect(outcome_of_turn).to eql('sq')
+      end
+
+      it 'breaks out of loop and returns ' do
+        allow(game).to receive(:select_piece).and_return('surrender')
+
+        outcome_of_turn = game.send(:player_turn, {})
+        expect(outcome_of_turn).to eql('surrender')
+      end
+    end
+  end
+
+  describe '#select_move' do
+    let(:board) { double('board') }
+    let(:game) { ChessGame.new(board: board) }
+
+    before do
       allow(game).to receive(:print)
     end
 
@@ -100,9 +143,6 @@ describe ChessGame do
     let(:game) { ChessGame.new(board: board) }
 
     before do
-      allow(board).to receive(:pretty_print)
-      allow(board).to receive(:checked?).and_return(false)
-
       allow(game).to receive(:print)
     end
 
@@ -146,10 +186,10 @@ describe ChessGame do
 
     context 'when player selects enemy piece' do 
       it 'displays error message and loops until valid' do
-        allow(game).to receive(:gets).and_return('black_piece', 'white_piece')
+        allow(game).to receive(:gets).and_return('incorrect piece', 'corrent_piece')
         allow(game).to receive(:valid_coord?).and_return(true)
-        allow(game).to receive(:chess_to_array_index).and_return('black_piece', 'white_piece')
-        allow(board).to receive(:color).and_return(:black, :white)
+        allow(game).to receive(:chess_to_array_index)
+        allow(board).to receive(:color).and_return(game.not_current_player, game.current_player)
 
         expect(game).to receive(:puts).with('Invalid selection - Please select one of your pieces').once
         game.send(:select_piece)
