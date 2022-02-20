@@ -64,7 +64,7 @@ class ChessBoard
 
     potential_moves.each do |piece, moves|
       valid_moves[piece] = moves.reject { |move| invalid_move?(piece, move) }
-      valid_moves[piece] += return_castle_moves(piece) if at_index(piece).instance_of?(King) && color(piece) == color
+      valid_moves[piece] += return_castle_moves(piece) if castleable_piece?(piece)
     end
 
     valid_moves
@@ -188,6 +188,10 @@ class ChessBoard
     return if empty?(position)
 
     at_index(position).castle_moves(self, position)
+  end
+
+  def castleable_piece?(position)
+    at_index(position).instance_of?(King)
   end
 
   # Runs through number of checks and updates to game state (moved, pawn promotion, en passant)
