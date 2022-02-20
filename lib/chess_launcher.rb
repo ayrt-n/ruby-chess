@@ -82,5 +82,3 @@ class ChessLauncher
     HEREDOC
   end
 end
-
-ChessLauncher.new.play_game
