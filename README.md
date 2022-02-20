@@ -15,3 +15,9 @@ The game can be run from the command line by simply running:
 ```
 $ ruby lib/main.rb
 ```
+
+## Key Topics Covered
+
+Capstone project from The Odin Project, providing the opportunity to implement everything learned through the Ruby section of the curriculum.
+
+Beyond the more technical aspects, this project provided the opportunity to get experience working with and solving a broadly scoped problem (final project did not provide any details on implementation). As such, I was required to think through the problem and implementation, maintain a disciplined workflow (utilizing git to safely experiment), stay organized, and break the problem down into workable components.
