@@ -4,14 +4,16 @@ require './lib/chess_board'
 
 describe ChessBoard do
   describe '#move_piece' do
-    it 'moves object from one array location to another' do
-      piece = double('piece')
-      example_board = ChessBoard.new([[nil, piece, nil], [nil, nil, nil]])
-      starting = [0, 1]
-      ending = [1, 1]
+    context 'when making a regular move' do
+      it 'moves object from one array location to another' do
+        piece = double('piece')
+        example_board = ChessBoard.new([[nil, piece, nil], [nil, nil, nil]])
+        starting = [0, 1]
+        ending = [1, 1]
 
-      example_board.send(:move_piece, starting, ending)
-      expect(example_board.board).to eql([[nil, nil, nil], [nil, piece, nil]])
+        example_board.send(:move_piece, starting, ending)
+        expect(example_board.board).to eql([[nil, nil, nil], [nil, piece, nil]])
+      end
     end
   end
 
