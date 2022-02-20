@@ -221,6 +221,44 @@ describe ChessBoard do
     end
   end
 
+  describe '#stalemate' do
+    let(:wking) { King.new(:white) }
+    let(:brook) { Rook.new(:black) }
+    let(:bqueen) { Queen.new(:black) }
+
+    context 'when player has no valid moves and is not in check' do
+      it 'returns true' do
+        example_board = [[bqueen, nil, nil],
+                         [nil, nil, wking],
+                         [brook, nil, nil]]
+        board = ChessBoard.new(example_board)
+        allow(bqueen).to receive(:valid_moves).and_return([[0, 1], [0, 2], [0, 3], [0, 4], [1, 0], [1, 1]])
+        allow(brook).to receive(:valid_moves).and_return([[1, 0], [2, 1], [2, 2]])
+        allow(wking).to receive(:valid_moves).and_return([[1, 1], [0, 1], [0, 2], [2, 1], [2, 2]])
+
+        white_stalemate = board.stalemate?(:white)
+
+        expect(white_stalemate).to eql(true)
+      end
+    end
+
+    context 'when player has no valid moves and is in check' do
+      it 'returns false' do
+        example_board = [[brook, nil, nil],
+                         [nil, nil, bqueen],
+                         [wking, nil, nil]]
+        board = ChessBoard.new(example_board)
+        allow(brook).to receive(:valid_moves).and_return([[1, 0], [2, 0]])
+        allow(bqueen).to receive(:valid_moves).and_return([[1, 0], [1, 1], [2, 1], [2, 2]])
+        allow(wking).to receive(:valid_moves).and_return([[1, 0], [1, 1], [2, 1]])
+
+        white_stalemate = board.stalemate?(:white)
+
+        expect(white_stalemate).to eql(false)
+      end
+    end
+  end
+
   describe '#checkmate' do
     let(:wking) { King.new(:white) }
     let(:wpawn) { Pawn.new(:white) }
