@@ -87,9 +87,12 @@ class ChessBoard
     villian_moves.include?(king_pos)
   end
 
+  def stalemate?(color)
+    !checked?(color) && no_valid_moves?(color)
+  end
+
   def checkmate?(color)
-    valid_moves = return_all_valid_moves(color)
-    valid_moves.values.flatten.empty?
+    checked?(color) && no_valid_moves?(color)
   end
 
   # Prints contents of the board, can highlight specific squares if position provided
@@ -247,6 +250,12 @@ class ChessBoard
     end
 
     moves
+  end
+
+  # Returns true if given color/player has no valid moves
+  def no_valid_moves?(color)
+    valid_moves = return_all_valid_moves(color)
+    valid_moves.values.flatten.empty?
   end
 
   # Returns an array of all positions under attack by a given color/player
