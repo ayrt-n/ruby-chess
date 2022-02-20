@@ -136,45 +136,4 @@ describe ChessBoard do
       expect(white_king).to eql([7, 4])
     end
   end
-
-  describe '#en_passant_take?' do
-    let(:wp) { double('pawn') }
-    let(:bp) { double('pawn') }
-
-    before do
-      allow(wp).to receive(:color).and_return(:white)
-      allow(wp).to receive(:instance_of?).and_return(Pawn)
-      allow(bp).to receive(:color).and_return(:black)
-    end
-
-    it 'returns true when player is making en passant take' do
-      example_board = [[nil, nil, nil],
-                        [ wp,  bp, nil]]
-
-      board = ChessBoard.new(example_board)
-      is_en_passant_take = board.send(:en_passant_take?, [1, 0], [0, 1])
-
-      expect(is_en_passant_take).to eql(true)
-    end
-
-    it 'returns false when player is not making en passant take' do
-      example_board = [[nil, nil, nil],
-                        [ 'not_pawn',  bp, nil]]
-
-      board = ChessBoard.new(example_board)
-      is_en_passant_take = board.send(:en_passant_take?, [1, 0], [0, 1])
-
-      expect(is_en_passant_take).to eql(false)
-    end
-
-    it 'returns false when player is not making en passant take' do
-      example_board = [[nil,  bp, nil],
-                        [ wp, nil, nil]]
-
-      board = ChessBoard.new(example_board)
-      is_en_passant_take = board.send(:en_passant_take?, [1, 0], [0, 1])
-
-      expect(is_en_passant_take).to eql(false)
-    end
-  end
 end
