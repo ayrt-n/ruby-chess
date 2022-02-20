@@ -143,5 +143,17 @@ describe ChessGame do
         game.send(:select_piece)
       end
     end
+
+    context 'when player selects enemy piece' do 
+      it 'displays error message and loops until valid' do
+        allow(game).to receive(:gets).and_return('black_piece', 'white_piece')
+        allow(game).to receive(:valid_coord?).and_return(true)
+        allow(game).to receive(:chess_to_array_index).and_return('black_piece', 'white_piece')
+        allow(board).to receive(:color).and_return(:black, :white)
+
+        expect(game).to receive(:puts).with('Invalid selection - Please select one of your pieces').once
+        game.send(:select_piece)
+      end
+    end
   end
 end
