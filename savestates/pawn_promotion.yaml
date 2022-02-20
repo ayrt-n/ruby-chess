@@ -1,0 +1,131 @@
+--- !ruby/object:ChessGame
+current_player: :black
+not_current_player: :white
+board: !ruby/object:ChessBoard
+  board:
+  - - !ruby/object:Rook
+      color: :black
+      moved: false
+    - !ruby/object:Knight
+      color: :black
+      moved: false
+    - !ruby/object:Bishop
+      color: :black
+      moved: false
+    - !ruby/object:Queen
+      color: :black
+      moved: false
+    - !ruby/object:King
+      color: :black
+      moved: false
+    - !ruby/object:Bishop
+      color: :black
+      moved: false
+    - !ruby/object:Knight
+      color: :black
+      moved: false
+    - !ruby/object:Rook
+      color: :black
+      moved: false
+  - - !ruby/object:Pawn
+      color: :black
+      moved: false
+    - !ruby/object:Pawn
+      color: :black
+      moved: false
+    - !ruby/object:Pawn
+      color: :black
+      moved: false
+    - !ruby/object:Pawn
+      color: :black
+      moved: false
+    - !ruby/object:Pawn
+      color: :black
+      moved: false
+    - !ruby/object:Pawn
+      color: :black
+      moved: false
+    - !ruby/object:Pawn
+      color: :black
+      moved: false
+    - 
+  - - !ruby/object:Pawn
+      color: :white
+      moved: true
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - !ruby/object:Knight
+      color: :white
+      moved: true
+    - 
+    - 
+  - - 
+    - !ruby/object:Pawn
+      color: :white
+      moved: false
+    - !ruby/object:Pawn
+      color: :white
+      moved: false
+    - !ruby/object:Pawn
+      color: :white
+      moved: false
+    - !ruby/object:Pawn
+      color: :white
+      moved: false
+    - !ruby/object:Pawn
+      color: :white
+      moved: false
+    - !ruby/object:Pawn
+      color: :black
+      moved: true
+    - !ruby/object:Pawn
+      color: :white
+      moved: false
+  - - !ruby/object:Rook
+      color: :white
+      moved: false
+    - !ruby/object:Knight
+      color: :white
+      moved: false
+    - !ruby/object:Bishop
+      color: :white
+      moved: false
+    - !ruby/object:Queen
+      color: :white
+      moved: false
+    - !ruby/object:King
+      color: :white
+      moved: false
+    - !ruby/object:Bishop
+      color: :white
+      moved: false
+    - 
+    - !ruby/object:Rook
+      color: :white
+      moved: false
