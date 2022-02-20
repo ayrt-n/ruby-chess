@@ -168,6 +168,34 @@ describe ChessBoard do
     end
   end
 
+  describe '#under_attack_at?' do
+    let(:wking) { King.new(:white) }
+    let(:brook) { Rook.new (:black) }
+
+    it 'returns true if piece is under attack at certain position' do
+      example_board = [[nil, brook, nil],
+                       [nil, nil, nil],
+                       [wking, nil, nil]]
+      board = ChessBoard.new(example_board)
+      allow(brook).to receive(:valid_moves).and_return([[1, 1], [2, 1]])
+
+      is_under_attack = board.under_attack_at?([2, 1], :white)
+
+      expect(is_under_attack).to eql(true)
+    end
+
+    it 'returns false if piece is not under attack at certain position' do
+      example_board = [[nil, brook, nil],
+                       [nil, nil, nil],
+                       [wking, nil, nil]]
+      board = ChessBoard.new(example_board)
+      allow(brook).to receive(:valid_moves).and_return([[1, 1], [2, 1]])
+
+      is_under_attack = board.under_attack_at?([1, 0], :white)
+
+      expect(is_under_attack).to eql(false)
+    end
+  end
 
   describe '#checked' do
     let(:wking) { King.new(:white) }
