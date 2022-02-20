@@ -19,16 +19,18 @@ $ ruby lib/main.rb
 ## Game Features
 
 Game fully enforces the rules of chess including:
-- Player can not move into check or ignore check
+- Prevents players from making illegal moves
+- Stops players from moving into check or ignoring check
 - Checkmate if player has no valid moves and is in check
 - Stalemate if player has no valid moves and is not in check
 - Player can castle if meeting the requirements
   - King is not in check
   - King or rook has not moved
   - King does not move through a spot in check
+- Pawns are able to move two squares if not already moved
 - En passant only available in turn following a two-square pawn move
 
-Additionally, the game includes a number of quality of life functions including the option to save and load old games, select pieces and show all available moves, and surrender.
+Additionally, the game includes a number of quality of life functions including the option select and view all available moves, save and load old games, and surrender.
 
 ## Thoughts and Takeaways
 
