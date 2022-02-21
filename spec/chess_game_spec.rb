@@ -18,8 +18,16 @@ describe ChessGame do
       expect(outcome_of_game).to eql(:checkmate)
     end
 
+    it 'breaks out of loop when stalemate' do
+      allow(board).to receive(:checkmate?).and_return(false)
+      allow(board).to receive(:stalemate?).and_return(true)
+      outcome_of_game = game.send(:game)
+      expect(outcome_of_game).to eql(:stalemate)
+    end
+
     it 'breaks out of loop when save and quit' do
       allow(board).to receive(:checkmate?).and_return(false)
+      allow(board).to receive(:stalemate?).and_return(false)
       allow(board).to receive(:return_all_valid_moves)
       allow(game).to receive(:player_turn).and_return('sq')
 
@@ -29,6 +37,7 @@ describe ChessGame do
 
     it 'breaks out of loop when surrender' do
       allow(board).to receive(:checkmate?).and_return(false)
+      allow(board).to receive(:stalemate?).and_return(false)
       allow(board).to receive(:return_all_valid_moves)
       allow(game).to receive(:player_turn).and_return('surrender')
 
@@ -38,6 +47,7 @@ describe ChessGame do
 
     it 'switches players after looping' do
       allow(board).to receive(:checkmate?).and_return(false, true)
+      allow(board).to receive(:stalemate?).and_return(false)
       allow(board).to receive(:return_all_valid_moves)
       allow(game).to receive(:player_turn)
 
