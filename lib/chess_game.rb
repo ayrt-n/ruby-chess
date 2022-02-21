@@ -25,6 +25,8 @@ class ChessGame
     case outcome_of_game
     when :checkmate
       puts "Checkmate! #{not_current_player.capitalize} wins!"
+    when :stalemate
+      puts 'Stalemate! There are no winners.'
     when :sq
       save_game
     else
@@ -39,6 +41,7 @@ class ChessGame
   def game
     loop do
       return :checkmate if checkmate?(current_player)
+      return :stalemate if stalemate?(current_player)
 
       valid_moves = player_valid_moves(current_player)
       puts "Check! The #{current_player} king is under attack, protect him!" if checked?(current_player)
@@ -110,6 +113,11 @@ class ChessGame
   # Encapsulates call to ChessBoard#checkmate?
   def checkmate?(player)
     board.checkmate?(player)
+  end
+
+  # Encapsulates call to ChessBoard#checkmate?
+  def stalemate?(player)
+    board.stalemate?(player)
   end
 
   # Encapsulates call to ChessBoard#checked?
