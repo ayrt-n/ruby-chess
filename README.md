@@ -10,9 +10,7 @@ Final Ruby project for The Odin Project (https://www.theodinproject.com/) to cre
 
 ## How to use
 
-The easiest way to play would be online at: https://replit.com/@ayrtonomics/CLI-Chess?v=1
-
-Alternatively, the game can be run from the command line by:
+The game can be run from the command line by:
 
 1. Cloning this repo
 2. Installing the required gems by running
